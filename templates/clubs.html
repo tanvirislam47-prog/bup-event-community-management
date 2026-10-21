@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}
+University Clubs
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+    <h1>University Clubs</h1>
+    <p>Explore available BUP clubs and view their details.</p>
+</div>
+
+
+{% if clubs %}
+
+    <div class="grid grid-2">
+
+        {% for club in clubs %}
+
+            <div class="card">
+
+                <h2>{{ club.name }}</h2>
+
+                <p>
+                    <strong>Category:</strong>
+                    {{ club.category }}
+                </p>
+
+                <p>
+                    {{ club.description }}
+                </p>
+
+                <p>
+                    <span class="badge badge-active">
+                        {{ club.status }}
+                    </span>
+                </p>
+
+                <br>
+
+                <a
+                    href="{{ url_for('club_details', club_id=club.club_id) }}"
+                    class="btn btn-primary"
+                >
+                    View Club
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% else %}
+
+    <div class="empty-state">
+
+        <h3>No Clubs Available</h3>
+
+        <p>
+            There are currently no active clubs available.
+        </p>
+
+    </div>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Memberships</title>
+</head>
+
+<body>
+
+    <h2>My Club Memberships</h2>
+
+    {% if memberships %}
+
+        {% for membership in memberships %}
+
+            <hr>
+
+            <h3>{{ membership.name }}</h3>
+
+            <p>
+                <strong>Category:</strong>
+                {{ membership.category }}
+            </p>
+
+            <p>
+                <strong>Membership Status:</strong>
+                {{ membership.status }}
+            </p>
+
+            <p>
+                <strong>Requested At:</strong>
+                {{ membership.requested_at }}
+            </p>
+
+            {% if membership.joined_at %}
+
+                <p>
+                    <strong>Joined At:</strong>
+                    {{ membership.joined_at }}
+                </p>
+
+            {% endif %}
+
+            <p>
+                <a href="{{ url_for('club_details', club_id=membership.club_id) }}">
+                    View Club Details
+                </a>
+            </p>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>You have not applied to any club yet.</p>
+
+    {% endif %}
+
+    <hr>
+
+    <a href="{{ url_for('student_dashboard') }}">
+        Back to Dashboard
+    </a>
+
+</body>
+</html>

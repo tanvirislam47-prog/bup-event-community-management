@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Login | BUP Event & Community
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="auth-body">
+
+
+<!-- =====================================================
+     TOPBAR
+===================================================== -->
+
+<header class="auth-topbar">
+
+    <div class="auth-topbar-inner">
+
+        <a
+            href="{{ url_for('login') }}"
+            class="auth-brand"
+        >
+
+            <span class="auth-brand-mark">
+                B
+            </span>
+
+            <div>
+
+                <strong>
+                    BUP Event & Community
+                </strong>
+
+                <small>
+                    University Community Platform
+                </small>
+
+            </div>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     LOGIN PAGE
+===================================================== -->
+
+<main class="auth-page">
+
+
+    <section class="auth-shell">
+
+
+        <!-- =============================================
+             LEFT PANEL
+        ============================================== -->
+
+        <div class="auth-showcase">
+
+
+            <div class="auth-showcase-content">
+
+                <span class="auth-eyebrow">
+                    BUP COMMUNITY PLATFORM
+                </span>
+
+
+                <h1>
+                    Connect with your
+                    university community.
+                </h1>
+
+
+                <p>
+                    Discover clubs, join student communities,
+                    follow upcoming events and manage your
+                    university activities from one place.
+                </p>
+
+
+                <div class="auth-feature-list">
+
+
+                    <div class="auth-feature-item">
+
+                        <div class="auth-feature-icon">
+                            C
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Explore Clubs
+                            </strong>
+
+                            <span>
+                                Discover active university clubs
+                                and communities.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="auth-feature-item">
+
+                        <div class="auth-feature-icon">
+                            E
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Stay Updated
+                            </strong>
+
+                            <span>
+                                Follow events, notices and
+                                community activities.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="auth-feature-item">
+
+                        <div class="auth-feature-icon">
+                            M
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Manage Memberships
+                            </strong>
+
+                            <span>
+                                Apply to clubs and manage your
+                                membership journey.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="auth-showcase-footer">
+
+                <span class="auth-security-dot"></span>
+
+                Secure access for BUP students,
+                moderators and university authorities.
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =============================================
+             RIGHT LOGIN PANEL
+        ============================================== -->
+
+        <div class="auth-form-panel">
+
+
+            <div class="auth-form-header">
+
+                <span class="auth-form-label">
+                    WELCOME BACK
+                </span>
+
+
+                <h2>
+                    Sign in to your account
+                </h2>
+
+
+                <p>
+                    Select your account type and sign in
+                    using your assigned credentials.
+                </p>
+
+
+                <!-- =====================================
+                     ROLE SELECTOR
+                ====================================== -->
+
+                <div
+                    class="auth-access-types"
+                    role="group"
+                    aria-label="Select account type"
+                >
+
+
+                    <button
+                        type="button"
+                        class="auth-access-item active"
+                        data-login-role="STUDENT"
+                        aria-pressed="true"
+                    >
+
+                        <span class="auth-access-icon">
+                            S
+                        </span>
+
+                        <span>
+                            Student
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="auth-access-item"
+                        data-login-role="CLUB_MODERATOR"
+                        aria-pressed="false"
+                    >
+
+                        <span class="auth-access-icon">
+                            M
+                        </span>
+
+                        <span>
+                            Club Moderator
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="auth-access-item"
+                        data-login-role="AUTHORIZED_STAFF"
+                        aria-pressed="false"
+                    >
+
+                        <span class="auth-access-icon">
+                            A
+                        </span>
+
+                        <span>
+                            Authorized Staff
+                        </span>
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================================
+                 LOGIN FORM
+            ========================================== -->
+
+            <form
+                method="POST"
+                class="auth-form"
+            >
+
+                <!-- Selected role goes to Flask -->
+
+                <input
+                    type="hidden"
+                    id="loginRole"
+                    name="login_role"
+                    value="STUDENT"
+                >
+
+
+                <!-- =====================================
+                     EMAIL
+                ====================================== -->
+
+                <div class="auth-field">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+
+                    <div class="auth-input-wrap">
+
+
+                        <span class="auth-input-icon">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+
+                                <path
+                                    d="M4 6h16v12H4z"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                />
+
+                                <path
+                                    d="m4 7 8 6 8-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                />
+
+                            </svg>
+
+                        </span>
+
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email address"
+                            autocomplete="email"
+                            required
+                        >
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- =====================================
+                     PASSWORD
+                ====================================== -->
+
+                <div class="auth-field">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+
+                    <div class="auth-input-wrap">
+
+
+                        <span class="auth-input-icon">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+
+                                <rect
+                                    x="5"
+                                    y="10"
+                                    width="14"
+                                    height="10"
+                                    rx="2"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                />
+
+                                <path
+                                    d="M8 10V7a4 4 0 0 1 8 0v3"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                />
+
+                            </svg>
+
+                        </span>
+
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="auth-password-toggle"
+                            id="passwordToggle"
+                            aria-label="Show password"
+                        >
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+
+                                <path
+                                    d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.7"
+                                />
+
+                                <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="2.7"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.7"
+                                />
+
+                            </svg>
+
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- =====================================
+                     LOGIN BUTTON
+                ====================================== -->
+
+                <button
+                    type="submit"
+                    class="auth-submit-btn"
+                >
+
+                    <span>
+                        Sign In
+                    </span>
+
+                    <span class="auth-submit-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+            </form>
+
+
+            <!-- =========================================
+                 REGISTER
+            ========================================== -->
+
+            <div class="auth-register-box">
+
+                <span>
+                    New student?
+                </span>
+
+                <a href="{{ url_for('register') }}">
+                    Create Student Account
+                </a>
+
+            </div>
+
+
+            <div class="auth-form-footer">
+
+                BUP Event & Community Management System
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+<!-- =====================================================
+     LOGIN INTERACTIONS
+===================================================== -->
+
+<script>
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const passwordToggle =
+        document.getElementById("passwordToggle");
+
+    const loginRoleInput =
+        document.getElementById("loginRole");
+
+    const roleButtons =
+        document.querySelectorAll(
+            ".auth-access-item[data-login-role]"
+        );
+
+
+    // =====================================================
+    // Password Show / Hide
+    // =====================================================
+
+    if (passwordInput && passwordToggle) {
+
+        passwordToggle.addEventListener(
+            "click",
+            function () {
+
+                const hidden =
+                    passwordInput.type === "password";
+
+                passwordInput.type =
+                    hidden
+                        ? "text"
+                        : "password";
+
+                passwordToggle.setAttribute(
+                    "aria-label",
+                    hidden
+                        ? "Hide password"
+                        : "Show password"
+                );
+
+            }
+        );
+
+    }
+
+
+    // =====================================================
+    // Login Role Selector
+    // =====================================================
+
+    if (loginRoleInput && roleButtons.length) {
+
+        roleButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        roleButtons.forEach(
+                            function (item) {
+
+                                item.classList.remove(
+                                    "active"
+                                );
+
+                                item.setAttribute(
+                                    "aria-pressed",
+                                    "false"
+                                );
+
+                            }
+                        );
+
+
+                        button.classList.add(
+                            "active"
+                        );
+
+
+                        button.setAttribute(
+                            "aria-pressed",
+                            "true"
+                        );
+
+
+                        loginRoleInput.value =
+                            button.dataset.loginRole;
+
+                    }
+                );
+
+            }
+        );
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Student Registration | BUP Event & Community
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="register-body">
+
+
+<!-- =====================================================
+     TOPBAR
+===================================================== -->
+
+<header class="auth-topbar">
+
+    <div class="auth-topbar-inner">
+
+        <a
+            href="{{ url_for('login') }}"
+            class="auth-brand"
+        >
+
+            <span class="auth-brand-mark">
+                B
+            </span>
+
+            <div>
+
+                <strong>
+                    BUP Event & Community
+                </strong>
+
+                <small>
+                    University Community Platform
+                </small>
+
+            </div>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     REGISTER PAGE
+===================================================== -->
+
+<main class="register-page">
+
+
+    <section class="register-shell">
+
+
+        <!-- =============================================
+             LEFT INFORMATION PANEL
+        ============================================== -->
+
+        <div class="register-showcase">
+
+
+            <div>
+
+                <span class="register-eyebrow">
+                    STUDENT REGISTRATION
+                </span>
+
+
+                <h1>
+                    Join your university
+                    community.
+                </h1>
+
+
+                <p>
+                    Create your student account to explore
+                    clubs, apply for memberships, follow
+                    events and stay connected with university
+                    activities.
+                </p>
+
+
+                <div class="register-info-list">
+
+
+                    <div class="register-info-item">
+
+                        <span class="register-info-icon">
+                            1
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Create Student Profile
+                            </strong>
+
+                            <span>
+                                Add your academic and contact
+                                information.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="register-info-item">
+
+                        <span class="register-info-icon">
+                            2
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Explore University Clubs
+                            </strong>
+
+                            <span>
+                                Discover active student clubs
+                                and communities.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="register-info-item">
+
+                        <span class="register-info-icon">
+                            3
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Apply for Membership
+                            </strong>
+
+                            <span>
+                                Complete club-specific applications
+                                and track your status.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="register-showcase-footer">
+
+                <span class="auth-security-dot"></span>
+
+                Student self-registration only.
+                Moderator and staff accounts are assigned
+                by authorized administrators.
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =============================================
+             REGISTRATION FORM
+        ============================================== -->
+
+        <div class="register-form-panel">
+
+
+            <div class="register-form-header">
+
+                <span class="register-form-label">
+                    CREATE ACCOUNT
+                </span>
+
+                <h2>
+                    Student Registration
+                </h2>
+
+                <p>
+                    Complete the form below using your
+                    student information.
+                </p>
+
+            </div>
+
+
+            <form
+                method="POST"
+                class="register-form"
+            >
+
+
+                <!-- =====================================
+                     PERSONAL INFORMATION
+                ====================================== -->
+
+                <div class="register-section-title">
+
+                    <span>
+                        01
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Personal Information
+                        </strong>
+
+                        <small>
+                            Basic account information
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="register-grid">
+
+
+                    <div class="register-field register-field-full">
+
+                        <label for="full_name">
+                            Full Name
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="full_name"
+                            name="full_name"
+                            placeholder="Enter your full name"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="register-field">
+
+                        <label for="email">
+                            Email Address
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="register-field">
+
+                        <label for="phone">
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="phone"
+                            name="phone"
+                            placeholder="Enter phone number"
+                            autocomplete="tel"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =====================================
+                     ACADEMIC INFORMATION
+                ====================================== -->
+
+                <div class="register-section-title">
+
+                    <span>
+                        02
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Academic Information
+                        </strong>
+
+                        <small>
+                            Your university identity
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="register-grid">
+
+
+                    <div class="register-field">
+
+                        <label for="student_id">
+                            Student ID
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="student_id"
+                            name="student_id"
+                            placeholder="Enter student ID"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="register-field">
+
+                        <label for="department">
+                            Department
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="department"
+                            name="department"
+                            placeholder="Example: CSE"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="register-field register-field-full">
+
+                        <label for="batch">
+                            Batch
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="batch"
+                            name="batch"
+                            placeholder="Example: 23"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =====================================
+                     SECURITY
+                ====================================== -->
+
+                <div class="register-section-title">
+
+                    <span>
+                        03
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Account Security
+                        </strong>
+
+                        <small>
+                            Create your login password
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="register-grid">
+
+
+                    <div class="register-field">
+
+                        <label for="password">
+                            Password
+                            <span>*</span>
+                        </label>
+
+                        <div class="register-password-wrap">
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Create password"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="register-password-toggle"
+                                data-password-target="password"
+                                aria-label="Show password"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="register-field">
+
+                        <label for="confirm_password">
+                            Confirm Password
+                            <span>*</span>
+                        </label>
+
+                        <div class="register-password-wrap">
+
+                            <input
+                                type="password"
+                                id="confirm_password"
+                                name="confirm_password"
+                                placeholder="Confirm password"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="register-password-toggle"
+                                data-password-target="confirm_password"
+                                aria-label="Show password"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =====================================
+                     SUBMIT
+                ====================================== -->
+
+                <button
+                    type="submit"
+                    class="register-submit-btn"
+                >
+
+                    <span>
+                        Create Student Account
+                    </span>
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+            </form>
+
+
+            <!-- =========================================
+                 LOGIN LINK
+            ========================================== -->
+
+            <div class="register-login-box">
+
+                <span>
+                    Already have an account?
+                </span>
+
+                <a href="{{ url_for('login') }}">
+                    Sign In
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+<!-- =====================================================
+     PASSWORD TOGGLE
+===================================================== -->
+
+<script>
+
+    const passwordButtons =
+        document.querySelectorAll(
+            ".register-password-toggle"
+        );
+
+
+    passwordButtons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const targetId =
+                        button.dataset.passwordTarget;
+
+                    const input =
+                        document.getElementById(targetId);
+
+                    if (!input) {
+                        return;
+                    }
+
+                    const hidden =
+                        input.type === "password";
+
+                    input.type =
+                        hidden
+                            ? "text"
+                            : "password";
+
+                    button.textContent =
+                        hidden
+                            ? "Hide"
+                            : "Show";
+
+                }
+            );
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

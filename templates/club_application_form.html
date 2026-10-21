@@ -1,0 +1,1766 @@
+{% extends "base.html" %}
+
+{% block title %}
+Apply to {{ club.name }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="application-page">
+
+    <div class="application-container">
+
+
+        <!-- =====================================================
+             BACK TO CLUB
+        ====================================================== -->
+
+        <a
+            href="{{ url_for('club_details', club_id=club.club_id) }}"
+            class="application-back-link"
+        >
+
+            <svg viewBox="0 0 24 24">
+                <path d="M15 18l-6-6 6-6"></path>
+            </svg>
+
+            Back to Club
+
+        </a>
+
+
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+
+        <section class="application-hero">
+
+            <div class="application-hero-content">
+
+                <span class="application-eyebrow">
+                    CLUB MEMBERSHIP APPLICATION
+                </span>
+
+                <h1>
+                    Apply to {{ club.name }}
+                </h1>
+
+                <p>
+                    Review your student information and complete
+                    the club-specific questions before submitting
+                    your membership application.
+                </p>
+
+            </div>
+
+
+            <div class="application-hero-badge">
+
+                <div class="application-hero-icon">
+
+                    <svg viewBox="0 0 24 24">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M19 8v6"></path>
+                        <path d="M22 11h-6"></path>
+                    </svg>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Applying as
+                    </span>
+
+                    <strong>
+                        Student
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             APPLICATION PROGRESS
+        ====================================================== -->
+
+        <section class="application-progress">
+
+
+            <!-- STEP 1 -->
+
+            <div class="application-progress-item active">
+
+                <div class="application-progress-number">
+                    1
+                </div>
+
+                <div>
+
+                    <strong>
+                        Profile
+                    </strong>
+
+                    <span>
+                        Review information
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="application-progress-line"></div>
+
+
+            <!-- STEP 2 -->
+
+            <div class="application-progress-item active">
+
+                <div class="application-progress-number">
+                    2
+                </div>
+
+                <div>
+
+                    <strong>
+                        Questions
+                    </strong>
+
+                    <span>
+                        Club requirements
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="application-progress-line"></div>
+
+
+            <!-- STEP 3 -->
+
+            <div
+                class="application-progress-item"
+                id="reviewProgressItem"
+            >
+
+                <div class="application-progress-number">
+                    3
+                </div>
+
+                <div>
+
+                    <strong>
+                        Review
+                    </strong>
+
+                    <span>
+                        Submit application
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             MAIN LAYOUT
+        ====================================================== -->
+
+        <div class="application-layout">
+
+
+            <!-- =================================================
+                 LEFT CONTENT
+            ================================================== -->
+
+            <div class="application-main">
+
+
+                <!-- =================================================
+                     STEP 1 - STUDENT PROFILE
+                ================================================== -->
+
+                <section class="application-card">
+
+                    <div class="application-card-header">
+
+                        <div>
+
+                            <span class="application-step-label">
+                                STEP 1
+                            </span>
+
+                            <h2>
+                                Student Profile
+                            </h2>
+
+                            <p>
+                                Make sure your information is correct
+                                before continuing.
+                            </p>
+
+                        </div>
+
+
+                        <a
+                            href="{{ url_for('edit_profile') }}"
+                            class="application-edit-btn"
+                        >
+
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 20h9"></path>
+                                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"></path>
+                            </svg>
+
+                            Edit Profile
+
+                        </a>
+
+                    </div>
+
+
+                    <div class="application-profile">
+
+
+                        <div class="application-profile-main">
+
+                            <div class="application-avatar">
+
+                                {{ student.full_name[0]|upper }}
+
+                            </div>
+
+
+                            <div>
+
+                                <span class="application-profile-label">
+                                    STUDENT
+                                </span>
+
+                                <h3>
+                                    {{ student.full_name }}
+                                </h3>
+
+                                <p>
+
+                                    {{ student.department }}
+
+                                    {% if student.batch %}
+
+                                        · Batch {{ student.batch }}
+
+                                    {% endif %}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="application-profile-grid">
+
+
+                            <!-- STUDENT ID -->
+
+                            <div class="application-info-box">
+
+                                <div class="application-info-icon">
+
+                                    <svg viewBox="0 0 24 24">
+                                        <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                                        <path d="M7 8h5"></path>
+                                        <path d="M7 12h3"></path>
+                                    </svg>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span>
+                                        Student ID
+                                    </span>
+
+                                    <strong>
+                                        {{ student.student_id }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- DEPARTMENT -->
+
+                            <div class="application-info-box">
+
+                                <div class="application-info-icon">
+
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M3 21h18"></path>
+                                        <path d="M5 21V7l7-4 7 4v14"></path>
+                                        <path d="M9 21v-6h6v6"></path>
+                                    </svg>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span>
+                                        Department
+                                    </span>
+
+                                    <strong>
+                                        {{ student.department }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- BATCH -->
+
+                            <div class="application-info-box">
+
+                                <div class="application-info-icon">
+
+                                    <svg viewBox="0 0 24 24">
+                                        <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+                                        <path d="M16 3v4"></path>
+                                        <path d="M8 3v4"></path>
+                                        <path d="M3 11h18"></path>
+                                    </svg>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span>
+                                        Batch
+                                    </span>
+
+                                    <strong>
+                                        {{ student.batch or 'Not provided' }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- EMAIL -->
+
+                            <div class="application-info-box">
+
+                                <div class="application-info-icon">
+
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M4 4h16v16H4z"></path>
+                                        <path d="M4 6l8 6 8-6"></path>
+                                    </svg>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span>
+                                        Email
+                                    </span>
+
+                                    <strong>
+                                        {{ student.email }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- PHONE -->
+
+                            <div class="application-info-box">
+
+                                <div class="application-info-icon">
+
+                                    <svg viewBox="0 0 24 24">
+
+                                        <path d="
+                                            M22 16.92v3
+                                            a2 2 0 0 1-2.18 2
+                                            19.79 19.79 0 0 1-8.63-3.07
+                                            19.5 19.5 0 0 1-6-6
+                                            19.79 19.79 0 0 1-3.07-8.67
+                                            A2 2 0 0 1 3.9 2h3
+                                            a2 2 0 0 1 2 1.72
+                                            12.84 12.84 0 0 0 .7 2.81
+                                            2 2 0 0 1-.45 2.11
+                                            L7.91 9.91
+                                            a16 16 0 0 0 6 6
+                                            l1.27-1.27
+                                            a2 2 0 0 1 2.11-.45
+                                            12.84 12.84 0 0 0 2.81.7
+                                            A2 2 0 0 1 22 16.92z
+                                        "></path>
+
+                                    </svg>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span>
+                                        Phone
+                                    </span>
+
+                                    <strong>
+                                        {{ student.phone or 'Not provided' }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     STEP 2 - QUESTIONS
+                ================================================== -->
+
+                <section
+                    class="application-card"
+                    id="applicationQuestionsStep"
+                >
+
+                    <div class="application-card-header">
+
+                        <div>
+
+                            <span class="application-step-label">
+                                STEP 2
+                            </span>
+
+                            <h2>
+                                Club Application Questions
+                            </h2>
+
+                            <p>
+                                Answer the questions set by the
+                                club moderator.
+                            </p>
+
+                        </div>
+
+
+                        <span class="application-question-count">
+
+                            {{ questions|length }}
+
+                            Question{% if questions|length != 1 %}s{% endif %}
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         ACTUAL POST FORM
+                    ================================================== -->
+
+                    <form
+                        id="clubApplicationForm"
+                        class="application-form"
+                        method="POST"
+                        action="{{ url_for('club_application_form', club_id=club.club_id) }}"
+                    >
+
+
+                        {% if questions %}
+
+
+                            {% for question in questions %}
+
+
+                                <div
+                                    class="application-question"
+                                    data-question-id="{{ question.question_id }}"
+                                >
+
+
+                                    <div class="application-question-header">
+
+                                        <div class="application-question-number">
+
+                                            {{ loop.index }}
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <label>
+
+                                                {{ question.question_text }}
+
+                                                {% if question.is_required %}
+
+                                                    <span class="required-mark">
+                                                        *
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </label>
+
+
+                                            {% if question.is_required %}
+
+                                                <small>
+                                                    Required question
+                                                </small>
+
+                                            {% else %}
+
+                                                <small>
+                                                    Optional question
+                                                </small>
+
+                                            {% endif %}
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- =============================
+                                         SHORT TEXT
+                                    ============================== -->
+
+                                    {% if question.question_type == 'SHORT_TEXT' %}
+
+                                        <input
+                                            type="text"
+                                            name="question_{{ question.question_id }}"
+                                            class="application-input"
+                                            placeholder="Write your answer here..."
+                                            {% if question.is_required %}
+                                                required
+                                            {% endif %}
+                                        >
+
+
+                                    <!-- =============================
+                                         LONG TEXT
+                                    ============================== -->
+
+                                    {% elif question.question_type == 'LONG_TEXT' %}
+
+                                        <textarea
+                                            name="question_{{ question.question_id }}"
+                                            class="application-textarea"
+                                            placeholder="Write your answer here..."
+                                            rows="5"
+                                            {% if question.is_required %}
+                                                required
+                                            {% endif %}
+                                        ></textarea>
+
+
+                                    <!-- =============================
+                                         YES / NO
+                                    ============================== -->
+
+                                    {% elif question.question_type == 'YES_NO' %}
+
+                                        <div class="application-choice-group">
+
+
+                                            <label class="application-choice">
+
+                                                <input
+                                                    type="radio"
+                                                    name="question_{{ question.question_id }}"
+                                                    value="Yes"
+                                                    {% if question.is_required %}
+                                                        required
+                                                    {% endif %}
+                                                >
+
+                                                <span class="application-choice-box">
+
+                                                    <span class="application-radio-dot"></span>
+
+                                                    <span>
+                                                        Yes
+                                                    </span>
+
+                                                </span>
+
+                                            </label>
+
+
+                                            <label class="application-choice">
+
+                                                <input
+                                                    type="radio"
+                                                    name="question_{{ question.question_id }}"
+                                                    value="No"
+                                                >
+
+                                                <span class="application-choice-box">
+
+                                                    <span class="application-radio-dot"></span>
+
+                                                    <span>
+                                                        No
+                                                    </span>
+
+                                                </span>
+
+                                            </label>
+
+
+                                        </div>
+
+
+                                    <!-- =============================
+                                         SINGLE CHOICE
+                                    ============================== -->
+
+                                    {% elif question.question_type == 'SINGLE_CHOICE' %}
+
+
+                                        <div
+                                            class="application-single-choice"
+                                            data-name="question_{{ question.question_id }}"
+                                            data-required="{{ 1 if question.is_required else 0 }}"
+                                            data-options="{{ question.options_json|e }}"
+                                        >
+                                        </div>
+
+
+                                    {% endif %}
+
+
+                                </div>
+
+
+                            {% endfor %}
+
+
+                        {% else %}
+
+
+                            <div class="application-empty-state">
+
+                                <div class="application-empty-icon">
+
+                                    <svg viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="9"></circle>
+                                        <path d="M12 8v4"></path>
+                                        <path d="M12 16h.01"></path>
+                                    </svg>
+
+                                </div>
+
+
+                                <h3>
+                                    No additional questions
+                                </h3>
+
+                                <p>
+                                    This club currently does not require
+                                    any additional application questions.
+                                </p>
+
+                            </div>
+
+
+                        {% endif %}
+
+
+                        <!-- =================================================
+                             STEP 2 ACTIONS
+                        ================================================== -->
+
+                        <div class="application-actions">
+
+
+                            <a
+                                href="{{ url_for('club_details', club_id=club.club_id) }}"
+                                class="application-cancel-btn"
+                            >
+                                Cancel
+                            </a>
+
+
+                            <!-- IMPORTANT:
+                                 THIS BUTTON MUST NOT SUBMIT -->
+
+                            <button
+                                type="button"
+                                class="application-continue-btn"
+                                id="continueApplicationBtn"
+                            >
+
+                                Continue to Review
+
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M5 12h14"></path>
+                                    <path d="M13 6l6 6-6 6"></path>
+                                </svg>
+
+                            </button>
+
+
+                        </div>
+
+
+                    </form>
+
+                </section>
+
+
+                <!-- =================================================
+                     STEP 3 - REVIEW
+                ================================================== -->
+
+                <section
+                    class="application-card application-review-section"
+                    id="applicationReviewStep"
+                    style="display: none;"
+                >
+
+
+                    <div class="application-card-header">
+
+                        <div>
+
+                            <span class="application-step-label">
+                                STEP 3
+                            </span>
+
+                            <h2>
+                                Review Application
+                            </h2>
+
+                            <p>
+                                Review your profile and application
+                                answers before final submission.
+                            </p>
+
+                        </div>
+
+
+                        <span class="application-review-badge">
+                            Ready for Review
+                        </span>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         APPLICANT SUMMARY
+                    ================================================== -->
+
+                    <div class="application-review-profile">
+
+                        <div class="application-avatar">
+
+                            {{ student.full_name[0]|upper }}
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                APPLICANT
+                            </span>
+
+                            <h3>
+                                {{ student.full_name }}
+                            </h3>
+
+                            <p>
+
+                                Student ID {{ student.student_id }}
+
+                                · {{ student.department }}
+
+                                {% if student.batch %}
+
+                                    · Batch {{ student.batch }}
+
+                                {% endif %}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         REVIEW ANSWERS
+                    ================================================== -->
+
+                    <div class="application-review-block">
+
+                        <div class="application-review-title">
+
+                            <div>
+
+                                <span>
+                                    APPLICATION ANSWERS
+                                </span>
+
+                                <h3>
+                                    Your Responses
+                                </h3>
+
+                            </div>
+
+
+                            <span>
+
+                                {{ questions|length }}
+
+                                Question{% if questions|length != 1 %}s{% endif %}
+
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="application-review-answers"
+                            id="applicationReviewAnswers"
+                        >
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         CONFIRMATION
+                    ================================================== -->
+
+                    <div class="application-review-confirmation">
+
+                        <div class="application-review-confirm-icon">
+
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Review before submitting
+                            </strong>
+
+                            <p>
+                                By submitting this application, you confirm
+                                that the information and answers provided
+                                are accurate.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         STEP 3 ACTIONS
+                    ================================================== -->
+
+                    <div class="application-actions">
+
+
+                        <button
+                            type="button"
+                            class="application-cancel-btn"
+                            id="backToQuestionsBtn"
+                        >
+
+                            ← Back to Questions
+
+                        </button>
+
+
+                        <!-- IMPORTANT:
+                             ONLY THIS BUTTON SUBMITS -->
+
+                        <button
+                            type="submit"
+                            form="clubApplicationForm"
+                            class="application-submit-btn"
+                            id="finalSubmitApplicationBtn"
+                        >
+
+                            Submit Application
+
+                            <svg viewBox="0 0 24 24">
+                                <path d="M5 12h14"></path>
+                                <path d="M13 6l6 6-6 6"></path>
+                            </svg>
+
+                        </button>
+
+
+                    </div>
+
+
+                </section>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 SIDEBAR
+            ================================================== -->
+
+            <aside class="application-sidebar">
+
+
+                <!-- =================================================
+                     APPLICATION SUMMARY
+                ================================================== -->
+
+                <div class="application-summary-card">
+
+                    <span class="application-summary-label">
+                        APPLICATION SUMMARY
+                    </span>
+
+                    <h3>
+                        {{ club.name }}
+                    </h3>
+
+
+                    <div class="application-summary-row">
+
+                        <span>
+                            Category
+                        </span>
+
+                        <strong>
+                            {{ club.category or 'Student Club' }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="application-summary-row">
+
+                        <span>
+                            Applicant
+                        </span>
+
+                        <strong>
+                            {{ student.full_name }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="application-summary-row">
+
+                        <span>
+                            Student ID
+                        </span>
+
+                        <strong>
+                            {{ student.student_id }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="application-summary-row">
+
+                        <span>
+                            Questions
+                        </span>
+
+                        <strong>
+                            {{ questions|length }}
+                        </strong>
+
+                    </div>
+
+
+                    <div
+                        class="application-status-box"
+                        id="applicationStatusBox"
+                    >
+
+                        <span class="application-status-dot"></span>
+
+
+                        <div>
+
+                            <strong id="applicationStatusTitle">
+
+                                Ready to Apply
+
+                            </strong>
+
+
+                            <span id="applicationStatusText">
+
+                                Complete all required questions
+                                to continue.
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     HELP CARD
+                ================================================== -->
+
+                <div class="application-help-card">
+
+                    <div class="application-help-icon">
+
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <path d="M9.5 9a2.5 2.5 0 1 1 4.7 1.2c-.8 1-2.2 1.3-2.2 2.8"></path>
+                            <path d="M12 17h.01"></path>
+                        </svg>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Before you continue
+                        </strong>
+
+                        <p>
+                            Make sure your profile details and
+                            application answers are accurate.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </aside>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* =====================================================
+           SINGLE CHOICE QUESTIONS
+        ====================================================== */
+
+        const singleChoiceBlocks =
+            document.querySelectorAll(
+                ".application-single-choice"
+            );
+
+
+        singleChoiceBlocks.forEach(
+            function (block) {
+
+
+                let options = [];
+
+
+                try {
+
+                    options = JSON.parse(
+                        block.dataset.options || "[]"
+                    );
+
+                } catch (error) {
+
+                    options = [];
+
+                }
+
+
+                const inputName =
+                    block.dataset.name;
+
+
+                const isRequired =
+                    block.dataset.required === "1";
+
+
+                options.forEach(
+                    function (option, index) {
+
+
+                        const label =
+                            document.createElement(
+                                "label"
+                            );
+
+
+                        label.className =
+                            "application-choice";
+
+
+                        const input =
+                            document.createElement(
+                                "input"
+                            );
+
+
+                        input.type =
+                            "radio";
+
+
+                        input.name =
+                            inputName;
+
+
+                        input.value =
+                            option;
+
+
+                        if (
+                            isRequired
+                            && index === 0
+                        ) {
+
+                            input.required =
+                                true;
+
+                        }
+
+
+                        const box =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        box.className =
+                            "application-choice-box";
+
+
+                        const dot =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        dot.className =
+                            "application-radio-dot";
+
+
+                        const optionText =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        optionText.textContent =
+                            option;
+
+
+                        box.appendChild(
+                            dot
+                        );
+
+
+                        box.appendChild(
+                            optionText
+                        );
+
+
+                        label.appendChild(
+                            input
+                        );
+
+
+                        label.appendChild(
+                            box
+                        );
+
+
+                        block.appendChild(
+                            label
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           ELEMENT REFERENCES
+        ====================================================== */
+
+        const form =
+            document.getElementById(
+                "clubApplicationForm"
+            );
+
+
+        const continueButton =
+            document.getElementById(
+                "continueApplicationBtn"
+            );
+
+
+        const questionsStep =
+            document.getElementById(
+                "applicationQuestionsStep"
+            );
+
+
+        const reviewStep =
+            document.getElementById(
+                "applicationReviewStep"
+            );
+
+
+        const reviewAnswers =
+            document.getElementById(
+                "applicationReviewAnswers"
+            );
+
+
+        const backButton =
+            document.getElementById(
+                "backToQuestionsBtn"
+            );
+
+
+        const finalSubmitButton =
+            document.getElementById(
+                "finalSubmitApplicationBtn"
+            );
+
+
+        const reviewProgressItem =
+            document.getElementById(
+                "reviewProgressItem"
+            );
+
+
+        const statusTitle =
+            document.getElementById(
+                "applicationStatusTitle"
+            );
+
+
+        const statusText =
+            document.getElementById(
+                "applicationStatusText"
+            );
+
+
+        /* =====================================================
+           BUILD REVIEW ANSWERS
+        ====================================================== */
+
+        function buildReviewAnswers() {
+
+
+            if (!reviewAnswers) {
+                return;
+            }
+
+
+            reviewAnswers.innerHTML =
+                "";
+
+
+            const questionBlocks =
+                document.querySelectorAll(
+                    ".application-question"
+                );
+
+
+            questionBlocks.forEach(
+                function (
+                    questionBlock,
+                    index
+                ) {
+
+
+                    const questionLabel =
+                        questionBlock.querySelector(
+                            ".application-question-header label"
+                        );
+
+
+                    let questionText =
+                        questionLabel
+                            ? questionLabel.textContent.trim()
+                            : "Question";
+
+
+                    questionText =
+                        questionText
+                            .replace(/\s+/g, " ")
+                            .replace(/\*$/, "")
+                            .trim();
+
+
+                    const textInput =
+                        questionBlock.querySelector(
+                            "input[type='text']"
+                        );
+
+
+                    const textarea =
+                        questionBlock.querySelector(
+                            "textarea"
+                        );
+
+
+                    const checkedRadio =
+                        questionBlock.querySelector(
+                            "input[type='radio']:checked"
+                        );
+
+
+                    let answer =
+                        "";
+
+
+                    if (textInput) {
+
+                        answer =
+                            textInput.value.trim();
+
+                    } else if (textarea) {
+
+                        answer =
+                            textarea.value.trim();
+
+                    } else if (checkedRadio) {
+
+                        answer =
+                            checkedRadio.value;
+
+                    }
+
+
+                    if (!answer) {
+
+                        answer =
+                            "No answer provided";
+
+                    }
+
+
+                    const reviewItem =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    reviewItem.className =
+                        "application-review-answer-item";
+
+
+                    const answerTop =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    answerTop.className =
+                        "application-review-answer-top";
+
+
+                    const number =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    number.className =
+                        "application-review-answer-number";
+
+
+                    number.textContent =
+                        index + 1;
+
+
+                    const question =
+                        document.createElement(
+                            "strong"
+                        );
+
+
+                    question.textContent =
+                        questionText;
+
+
+                    const answerElement =
+                        document.createElement(
+                            "p"
+                        );
+
+
+                    answerElement.textContent =
+                        answer;
+
+
+                    answerTop.appendChild(
+                        number
+                    );
+
+
+                    answerTop.appendChild(
+                        question
+                    );
+
+
+                    reviewItem.appendChild(
+                        answerTop
+                    );
+
+
+                    reviewItem.appendChild(
+                        answerElement
+                    );
+
+
+                    reviewAnswers.appendChild(
+                        reviewItem
+                    );
+
+                }
+            );
+
+
+            /* =================================================
+               NO QUESTIONS
+            ================================================= */
+
+            if (
+                questionBlocks.length === 0
+            ) {
+
+
+                const empty =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                empty.className =
+                    "application-review-no-questions";
+
+
+                empty.textContent =
+                    "No additional club questions were required for this application.";
+
+
+                reviewAnswers.appendChild(
+                    empty
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           CONTINUE TO REVIEW
+        ====================================================== */
+
+        if (
+            form
+            && continueButton
+            && questionsStep
+            && reviewStep
+        ) {
+
+
+            continueButton.addEventListener(
+                "click",
+                function () {
+
+
+                    /* -----------------------------------------
+                       VALIDATE FORM
+                    ----------------------------------------- */
+
+                    if (
+                        !form.checkValidity()
+                    ) {
+
+                        form.reportValidity();
+
+                        return;
+
+                    }
+
+
+                    /* -----------------------------------------
+                       BUILD REVIEW
+                    ----------------------------------------- */
+
+                    buildReviewAnswers();
+
+
+                    /* -----------------------------------------
+                       HIDE QUESTIONS
+                    ----------------------------------------- */
+
+                    questionsStep.style.display =
+                        "none";
+
+
+                    /* -----------------------------------------
+                       SHOW REVIEW
+                    ----------------------------------------- */
+
+                    reviewStep.style.display =
+                        "block";
+
+
+                    /* -----------------------------------------
+                       ACTIVATE STEP 3
+                    ----------------------------------------- */
+
+                    if (
+                        reviewProgressItem
+                    ) {
+
+                        reviewProgressItem
+                            .classList.add(
+                                "active"
+                            );
+
+                    }
+
+
+                    /* -----------------------------------------
+                       UPDATE SIDEBAR
+                    ----------------------------------------- */
+
+                    if (
+                        statusTitle
+                    ) {
+
+                        statusTitle.textContent =
+                            "Ready to Submit";
+
+                    }
+
+
+                    if (
+                        statusText
+                    ) {
+
+                        statusText.textContent =
+                            "Review your application and submit when ready.";
+
+                    }
+
+
+                    /* -----------------------------------------
+                       SCROLL
+                    ----------------------------------------- */
+
+                    reviewStep.scrollIntoView({
+
+                        behavior:
+                            "smooth",
+
+                        block:
+                            "start"
+
+                    });
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           BACK TO QUESTIONS
+        ====================================================== */
+
+        if (
+            backButton
+            && questionsStep
+            && reviewStep
+        ) {
+
+
+            backButton.addEventListener(
+                "click",
+                function () {
+
+
+                    reviewStep.style.display =
+                        "none";
+
+
+                    questionsStep.style.display =
+                        "block";
+
+
+                    if (
+                        reviewProgressItem
+                    ) {
+
+                        reviewProgressItem
+                            .classList.remove(
+                                "active"
+                            );
+
+                    }
+
+
+                    if (
+                        statusTitle
+                    ) {
+
+                        statusTitle.textContent =
+                            "Ready to Apply";
+
+                    }
+
+
+                    if (
+                        statusText
+                    ) {
+
+                        statusText.textContent =
+                            "Complete all required questions to continue.";
+
+                    }
+
+
+                    questionsStep.scrollIntoView({
+
+                        behavior:
+                            "smooth",
+
+                        block:
+                            "start"
+
+                    });
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           FINAL SUBMIT PROTECTION
+
+           Only final Step 3 button submits the actual form.
+        ====================================================== */
+
+        if (
+            finalSubmitButton
+            && form
+        ) {
+
+
+            finalSubmitButton.addEventListener(
+                "click",
+                function () {
+
+
+                    if (
+                        !form.checkValidity()
+                    ) {
+
+                        form.reportValidity();
+
+                        reviewStep.style.display =
+                            "none";
+
+
+                        questionsStep.style.display =
+                            "block";
+
+
+                        return;
+
+                    }
+
+
+                    finalSubmitButton.disabled =
+                        true;
+
+
+                    finalSubmitButton.innerHTML =
+                        "Submitting Application...";
+
+
+                }
+            );
+
+        }
+
+
+    }
+);
+
+</script>
+
+
+{% endblock %}

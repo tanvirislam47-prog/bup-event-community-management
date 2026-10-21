@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% if form_mode == "edit" %}
+            Edit Project
+        {% else %}
+            Add Project
+        {% endif %}
+        | BUP Event & Community
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="project-form-body">
+
+
+<!-- =====================================================
+     TOPBAR
+===================================================== -->
+
+<header class="project-form-topbar">
+
+    <div class="project-form-topbar-inner">
+
+        <a
+            href="{{ url_for('student_dashboard') }}"
+            class="project-form-brand"
+        >
+            BUP Event & Community
+        </a>
+
+
+        <div class="project-form-nav">
+
+            <a href="{{ url_for('student_dashboard') }}">
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('profile') }}">
+                My Profile
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     PAGE
+===================================================== -->
+
+<main class="project-form-page">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <div class="project-form-header">
+
+        <div>
+
+            <span>
+                PROFESSIONAL PROFILE
+            </span>
+
+
+            <h1>
+
+                {% if form_mode == "edit" %}
+
+                    Edit Project
+
+                {% else %}
+
+                    Add Project
+
+                {% endif %}
+
+            </h1>
+
+
+            <p>
+
+                {% if form_mode == "edit" %}
+
+                    Update your project information and keep your
+                    professional portfolio accurate.
+
+                {% else %}
+
+                    Add an academic, personal or professional project
+                    to your student profile.
+
+                {% endif %}
+
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('edit_profile') }}"
+            class="project-form-back-btn"
+        >
+            ← Back to Edit Profile
+        </a>
+
+    </div>
+
+
+
+    <!-- =================================================
+         PROJECT FORM
+    ================================================== -->
+
+    <form
+        method="POST"
+
+        action="{% if form_mode == 'edit' %}{{ url_for('edit_student_project', project_id=project.project_id) }}{% else %}{{ url_for('add_student_project') }}{% endif %}"
+
+        class="project-form-card"
+    >
+
+
+        <!-- =================================================
+             PROJECT TITLE
+        ================================================== -->
+
+        <div class="project-form-field full">
+
+            <label for="project_title">
+
+                Project Title
+                <span>*</span>
+
+            </label>
+
+
+            <input
+                type="text"
+                id="project_title"
+                name="project_title"
+
+                value="{% if project %}{{ project.project_title or '' }}{% endif %}"
+
+                placeholder="e.g. University Event Management System"
+
+                required
+            >
+
+        </div>
+
+
+
+        <!-- =================================================
+             DESCRIPTION
+        ================================================== -->
+
+        <div class="project-form-field full">
+
+            <label for="project_description">
+                Project Description
+            </label>
+
+
+            <textarea
+                id="project_description"
+                name="project_description"
+                rows="6"
+                placeholder="Briefly describe the project, your role and what you built..."
+            >{% if project %}{{ project.project_description or '' }}{% endif %}</textarea>
+
+        </div>
+
+
+
+        <!-- =================================================
+             TECHNOLOGIES
+        ================================================== -->
+
+        <div class="project-form-field full">
+
+            <label for="technologies">
+                Technologies Used
+            </label>
+
+
+            <input
+                type="text"
+                id="technologies"
+                name="technologies"
+
+                value="{% if project %}{{ project.technologies or '' }}{% endif %}"
+
+                placeholder="Python, Flask, MySQL, HTML, CSS, JavaScript"
+            >
+
+
+            <small>
+                Separate technologies using commas.
+            </small>
+
+        </div>
+
+
+
+        <!-- =================================================
+             LINKS
+        ================================================== -->
+
+        <div class="project-form-grid">
+
+
+            <!-- GitHub -->
+
+            <div class="project-form-field">
+
+                <label for="github_url">
+                    GitHub Repository
+                </label>
+
+
+                <input
+                    type="url"
+                    id="github_url"
+                    name="github_url"
+
+                    value="{% if project %}{{ project.github_url or '' }}{% endif %}"
+
+                    placeholder="https://github.com/username/project"
+                >
+
+            </div>
+
+
+
+            <!-- Live Project -->
+
+            <div class="project-form-field">
+
+                <label for="project_url">
+                    Live Project / Website
+                </label>
+
+
+                <input
+                    type="url"
+                    id="project_url"
+                    name="project_url"
+
+                    value="{% if project %}{{ project.project_url or '' }}{% endif %}"
+
+                    placeholder="https://example.com"
+                >
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             DATES
+        ================================================== -->
+
+        <div class="project-form-grid">
+
+
+            <!-- Start Date -->
+
+            <div class="project-form-field">
+
+                <label for="start_date">
+                    Start Date
+                </label>
+
+
+                <input
+                    type="date"
+                    id="start_date"
+                    name="start_date"
+
+                    value="{% if project and project.start_date %}{{ project.start_date.strftime('%Y-%m-%d') }}{% endif %}"
+                >
+
+            </div>
+
+
+
+            <!-- End Date -->
+
+            <div class="project-form-field">
+
+                <label for="end_date">
+                    End Date
+                </label>
+
+
+                <input
+                    type="date"
+                    id="end_date"
+                    name="end_date"
+
+                    value="{% if project and project.end_date %}{{ project.end_date.strftime('%Y-%m-%d') }}{% endif %}"
+                >
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             ONGOING
+        ================================================== -->
+
+        <label class="project-ongoing-option">
+
+            <input
+                type="checkbox"
+                id="is_ongoing"
+                name="is_ongoing"
+                value="1"
+
+                {% if project and project.is_ongoing %}
+                    checked
+                {% endif %}
+            >
+
+
+            <span class="project-ongoing-check"></span>
+
+
+            <div>
+
+                <strong>
+                    This project is ongoing
+                </strong>
+
+                <p>
+                    Select this if you are currently working
+                    on this project.
+                </p>
+
+            </div>
+
+        </label>
+
+
+
+        <!-- =================================================
+             ACTIONS
+        ================================================== -->
+
+        <div class="project-form-actions">
+
+            <a
+                href="{{ url_for('edit_profile') }}"
+                class="project-form-cancel"
+            >
+                Cancel
+            </a>
+
+
+            <button
+                type="submit"
+                class="project-form-submit"
+            >
+
+                {% if form_mode == "edit" %}
+
+                    Save Changes →
+
+                {% else %}
+
+                    Add Project →
+
+                {% endif %}
+
+            </button>
+
+        </div>
+
+
+    </form>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     SCRIPT
+===================================================== -->
+
+<script>
+
+    const ongoingCheckbox =
+        document.getElementById("is_ongoing");
+
+    const endDateInput =
+        document.getElementById("end_date");
+
+
+    function updateEndDateState() {
+
+        if (ongoingCheckbox.checked) {
+
+            endDateInput.value = "";
+
+            endDateInput.disabled = true;
+
+        } else {
+
+            endDateInput.disabled = false;
+
+        }
+
+    }
+
+
+    ongoingCheckbox.addEventListener(
+        "change",
+        updateEndDateState
+    );
+
+
+    updateEndDateState();
+
+</script>
+
+
+</body>
+
+</html>

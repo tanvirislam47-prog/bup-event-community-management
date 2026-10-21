@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}
+All Clubs
+{% endblock %}
+
+{% block content %}
+
+<section class="moderator-clubs-page">
+
+    <!-- PAGE HEADER -->
+
+    <div class="moderator-clubs-header">
+
+        <div>
+
+            <span class="section-label">
+                Club Directory
+            </span>
+
+            <h1>
+                All Clubs
+            </h1>
+
+            <p>
+                Browse all active university clubs.
+                You can manage only your assigned club.
+            </p>
+
+        </div>
+
+        <a
+            href="{{ url_for('moderator_dashboard') }}"
+            class="mod-back-dashboard"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- CLUB GRID -->
+
+    <div class="moderator-clubs-grid">
+
+        {% for club in clubs %}
+
+            <article
+                class="moderator-club-card
+                {% if club.club_id == assigned_club_id %}
+                    moderator-own-club
+                {% endif %}"
+            >
+
+                <!-- TOP -->
+
+                <div class="moderator-club-card-top">
+
+                    <div class="moderator-club-icon">
+                        {{ club.name[0] }}
+                    </div>
+
+
+                    {% if club.club_id == assigned_club_id %}
+
+                        <span class="moderator-club-badge own">
+                            Your Club
+                        </span>
+
+                    {% else %}
+
+                        <span class="moderator-club-badge readonly">
+                            View Only
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- CLUB INFO -->
+
+                <div class="moderator-club-card-body">
+
+                    <span class="moderator-club-category">
+                        {{ club.category }}
+                    </span>
+
+                    <h2>
+                        {{ club.name }}
+                    </h2>
+
+                    <p>
+                        {% if club.description %}
+                            {{ club.description }}
+                        {% else %}
+                            No club description available.
+                        {% endif %}
+                    </p>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="moderator-club-card-actions">
+
+                    {% if club.club_id == assigned_club_id %}
+
+                        <a
+                            href="{{ url_for('moderator_dashboard') }}"
+                            class="moderator-club-manage-btn"
+                        >
+                            Manage Club
+                        </a>
+
+                    {% else %}
+
+                        <span class="moderator-club-readonly-text">
+                            Read-only access
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </article>
+
+        {% else %}
+
+            <div class="moderator-clubs-empty">
+
+                <h3>
+                    No active clubs found
+                </h3>
+
+                <p>
+                    There are currently no active clubs available.
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

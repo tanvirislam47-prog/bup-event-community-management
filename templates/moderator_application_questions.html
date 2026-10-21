@@ -1,0 +1,733 @@
+{% extends "base.html" %}
+
+{% block title %}
+Application Questions
+{% endblock %}
+
+
+{% block content %}
+
+<section class="mod-question-page">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="mod-question-header">
+
+        <div>
+
+            <span class="section-label">
+                Membership Application
+            </span>
+
+            <h1>
+                Application Questions
+            </h1>
+
+            <p>
+                Create and manage membership application questions for
+                <strong>{{ moderator_club.club_name }}</strong>.
+            </p>
+
+        </div>
+
+        <a
+            href="{{ url_for('moderator_dashboard') }}"
+            class="mod-back-dashboard"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         CLUB INFORMATION
+    ====================================================== -->
+
+    <div class="mod-question-club-card">
+
+        <div>
+
+            <span class="mod-question-club-label">
+                Assigned Club
+            </span>
+
+            <h2>
+                {{ moderator_club.club_name }}
+            </h2>
+
+            {% if moderator_club.category %}
+                <p>
+                    {{ moderator_club.category }}
+                </p>
+            {% endif %}
+
+        </div>
+
+        <div class="mod-question-count">
+
+            <span>
+                Total Questions
+            </span>
+
+            <strong>
+                {{ questions|length }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ADD QUESTION
+    ====================================================== -->
+
+    <div class="mod-question-form-card">
+
+        <div class="mod-question-form-heading">
+
+            <div>
+
+                <span class="section-label">
+                    Question Builder
+                </span>
+
+                <h2>
+                    Add Application Question
+                </h2>
+
+                <p>
+                    Add a question students must answer when applying
+                    for this club.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ADD QUESTION FORM
+        ================================================== -->
+
+        <form
+            class="mod-question-form"
+            method="POST"
+            action="{{ url_for('moderator_add_application_question') }}"
+        >
+
+            <!-- Question -->
+
+            <div class="mod-question-form-group mod-question-full">
+
+                <label for="question_text">
+                    Question
+                </label>
+
+                <textarea
+                    id="question_text"
+                    name="question_text"
+                    rows="4"
+                    maxlength="500"
+                    placeholder="Example: Why do you want to join our club?"
+                    required
+                ></textarea>
+
+                <small>
+                    Write a clear question for applicants.
+                </small>
+
+            </div>
+
+
+            <!-- Question Type + Order -->
+
+            <div class="mod-question-form-grid">
+
+                <div class="mod-question-form-group">
+
+                    <label for="question_type">
+                        Question Type
+                    </label>
+
+                    <select
+                        id="question_type"
+                        name="question_type"
+                        required
+                    >
+
+                        <option value="SHORT_TEXT">
+                            Short Answer
+                        </option>
+
+                        <option value="LONG_TEXT">
+                            Long Answer
+                        </option>
+
+                        <option value="YES_NO">
+                            Yes / No
+                        </option>
+
+                        <option value="SINGLE_CHOICE">
+                            Single Choice
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="mod-question-form-group">
+
+                    <label for="sort_order">
+                        Display Order
+                    </label>
+
+                    <input
+                        type="number"
+                        id="sort_order"
+                        name="sort_order"
+                        min="1"
+                        value="{{ questions|length + 1 }}"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Choice Options -->
+
+            <div
+                class="mod-question-form-group mod-question-full"
+                id="question-options-area"
+            >
+
+                <label for="question_options">
+                    Choice Options
+                </label>
+
+                <textarea
+                    id="question_options"
+                    name="question_options"
+                    rows="3"
+                    placeholder="Example: Beginner, Intermediate, Advanced"
+                ></textarea>
+
+                <small>
+                    Only needed for Single Choice questions.
+                    Separate each option using commas.
+                </small>
+
+            </div>
+
+
+            <!-- Required -->
+
+            <div class="mod-question-required-row">
+
+                <label class="mod-question-check">
+
+                    <input
+                        type="checkbox"
+                        name="is_required"
+                        checked
+                    >
+
+                    <span>
+                        Required Question
+                    </span>
+
+                </label>
+
+                <p>
+                    Students must answer required questions before
+                    submitting their application.
+                </p>
+
+            </div>
+
+
+            <!-- Submit -->
+
+            <div class="mod-question-form-actions">
+
+                <button
+                    type="submit"
+                    class="mod-question-save-btn"
+                >
+                    + Add Question
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- =====================================================
+         CURRENT QUESTIONS
+    ====================================================== -->
+
+    <div class="mod-question-list-section">
+
+        <div class="mod-question-list-heading">
+
+            <div>
+
+                <span class="section-label">
+                    Application Form
+                </span>
+
+                <h2>
+                    Current Questions
+                </h2>
+
+                <p>
+                    These questions will appear when students apply
+                    for membership.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        {% if questions %}
+
+            <div class="mod-question-list">
+
+                {% for question in questions %}
+
+                    <article class="mod-question-card">
+
+
+                        <!-- =====================================
+                             QUESTION HEADER
+                        ====================================== -->
+
+                        <div class="mod-question-card-top">
+
+                            <div class="mod-question-number">
+                                {{ loop.index }}
+                            </div>
+
+
+                            <div class="mod-question-main">
+
+                                <div class="mod-question-title-row">
+
+                                    <h3>
+                                        {{ question.question_text }}
+                                    </h3>
+
+
+                                    {% if question.is_active %}
+
+                                        <span class="mod-question-status active">
+                                            Active
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="mod-question-status inactive">
+                                            Disabled
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <!-- =================================
+                                     QUESTION META
+                                ================================== -->
+
+                                <div class="mod-question-meta">
+
+                                    <!-- Type -->
+
+                                    <span>
+
+                                        {% if question.question_type == "SHORT_TEXT" %}
+
+                                            Short Answer
+
+                                        {% elif question.question_type == "LONG_TEXT" %}
+
+                                            Long Answer
+
+                                        {% elif question.question_type == "YES_NO" %}
+
+                                            Yes / No
+
+                                        {% elif question.question_type == "SINGLE_CHOICE" %}
+
+                                            Single Choice
+
+                                        {% else %}
+
+                                            {{ question.question_type }}
+
+                                        {% endif %}
+
+                                    </span>
+
+
+                                    <!-- Required / Optional -->
+
+                                    {% if question.is_required %}
+
+                                        <span>
+                                            Required
+                                        </span>
+
+                                    {% else %}
+
+                                        <span>
+                                            Optional
+                                        </span>
+
+                                    {% endif %}
+
+
+                                    <!-- Order -->
+
+                                    <span>
+                                        Order {{ question.sort_order }}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =====================================
+                             SINGLE CHOICE OPTIONS
+                        ====================================== -->
+
+                        {% if question.question_type == "SINGLE_CHOICE" and question.options_json %}
+
+                            <div class="mod-question-options-preview">
+
+                                <span class="mod-question-options-label">
+                                    Options
+                                </span>
+
+                                <p>
+                                    {{ question.options_json }}
+                                </p>
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- =====================================
+                             ACTION BUTTONS
+                        ====================================== -->
+
+                        <div class="mod-question-card-actions">
+
+                            <!-- Edit -->
+
+                            <button
+    type="button"
+    class="mod-question-edit-btn"
+    onclick="toggleEditForm('edit-form-{{ question.question_id }}')"
+>
+    Edit Question
+</button>
+
+
+                            <!-- Enable / Disable -->
+
+                            {% if question.is_active %}
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('moderator_toggle_application_question', question_id=question.question_id) }}"
+                                    class="mod-question-inline-form"
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="action"
+                                        value="disable"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="mod-question-disable-btn"
+                                    >
+                                        Disable
+                                    </button>
+
+                                </form>
+
+                            {% else %}
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('moderator_toggle_application_question', question_id=question.question_id) }}"
+                                    class="mod-question-inline-form"
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="action"
+                                        value="enable"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="mod-question-enable-btn"
+                                    >
+                                        Enable
+                                    </button>
+
+                                </form>
+
+                            {% endif %}
+
+                        </div>
+                        <div
+    id="edit-form-{{ question.question_id }}"
+    class="mod-question-edit-form"
+    style="display: none;"
+>
+
+    <form
+        method="POST"
+        action="{{ url_for(
+            'moderator_edit_application_question',
+            question_id=question.question_id
+        ) }}"
+    >
+
+        <div class="mod-question-form-group">
+
+            <label>
+                Question
+            </label>
+
+            <textarea
+                name="question_text"
+                rows="4"
+                maxlength="500"
+                required
+            >{{ question.question_text }}</textarea>
+
+        </div>
+
+
+        <div class="mod-question-form-grid">
+
+            <div class="mod-question-form-group">
+
+                <label>
+                    Question Type
+                </label>
+
+                <select name="question_type">
+
+                    <option
+                        value="SHORT_TEXT"
+                        {% if question.question_type == "SHORT_TEXT" %}selected{% endif %}
+                    >
+                        Short Answer
+                    </option>
+
+                    <option
+                        value="LONG_TEXT"
+                        {% if question.question_type == "LONG_TEXT" %}selected{% endif %}
+                    >
+                        Long Answer
+                    </option>
+
+                    <option
+                        value="YES_NO"
+                        {% if question.question_type == "YES_NO" %}selected{% endif %}
+                    >
+                        Yes / No
+                    </option>
+
+                    <option
+                        value="SINGLE_CHOICE"
+                        {% if question.question_type == "SINGLE_CHOICE" %}selected{% endif %}
+                    >
+                        Single Choice
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="mod-question-form-group">
+
+                <label>
+                    Display Order
+                </label>
+
+                <input
+                    type="number"
+                    name="sort_order"
+                    min="1"
+                    value="{{ question.sort_order }}"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="mod-question-form-group">
+
+            <label>
+                Choice Options
+            </label>
+
+            <textarea
+                name="question_options"
+                rows="3"
+                placeholder="Example: Beginner, Intermediate, Advanced"
+            >{{ question.options_json or '' }}</textarea>
+
+        </div>
+
+
+        <label class="mod-question-check">
+
+            <input
+                type="checkbox"
+                name="is_required"
+                {% if question.is_required %}checked{% endif %}
+            >
+
+            <span>
+                Required Question
+            </span>
+
+        </label>
+
+
+        <div class="mod-question-edit-actions">
+
+            <button
+                type="submit"
+                class="mod-question-save-btn"
+            >
+                Save Changes
+            </button>
+
+            <button
+                type="button"
+                class="mod-question-cancel-btn"
+                onclick="toggleEditForm('edit-form-{{ question.question_id }}')"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- =================================================
+                 EMPTY STATE
+            ================================================== -->
+
+            <div class="mod-question-empty">
+
+                <div class="mod-question-empty-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+
+                        <path
+                            d="M9 11h6"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                        ></path>
+
+                        <path
+                            d="M9 15h4"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                        ></path>
+
+                        <path
+                            d="M7 3h10a2 2 0 0 1 2 2v14
+                               a2 2 0 0 1-2 2H7
+                               a2 2 0 0 1-2-2V5
+                               a2 2 0 0 1 2-2Z"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+                <h3>
+                    No application questions yet
+                </h3>
+
+                <p>
+                    Create your first question to customize the
+                    membership application process for this club.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+<script>
+function toggleEditForm(formId) {
+
+    const form = document.getElementById(formId);
+
+    if (!form) {
+        return;
+    }
+
+    if (form.style.display === "none" || form.style.display === "") {
+        form.style.display = "block";
+    } else {
+        form.style.display = "none";
+    }
+
+}
+</script>
+
+{% endblock %}

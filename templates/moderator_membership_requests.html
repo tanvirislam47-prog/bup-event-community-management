@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+
+{% block title %}
+Membership Requests
+{% endblock %}
+
+{% block content %}
+
+<section class="mod-requests-page">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="mod-requests-header">
+
+        <div>
+
+            <span class="section-label">
+                Membership Management
+            </span>
+
+            <h1>
+                Pending Membership Requests
+            </h1>
+
+            <p>
+                Review student applications for
+                <strong>{{ moderator_club.club_name }}</strong>.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('moderator_dashboard') }}"
+            class="mod-back-dashboard"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         REQUEST SUMMARY
+    ====================================================== -->
+
+    <div class="mod-request-summary">
+
+        <div>
+
+            <span class="mod-request-summary-label">
+                Pending Applications
+            </span>
+
+            <strong class="mod-request-summary-number">
+                {{ membership_requests|length }}
+            </strong>
+
+        </div>
+
+        <p>
+            Review each student carefully before approving club membership.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         MEMBERSHIP REQUESTS
+    ====================================================== -->
+
+    {% if membership_requests %}
+
+        <div class="mod-request-list">
+
+            {% for request_item in membership_requests %}
+
+                <article class="mod-request-card">
+
+
+                    <!-- ===============================
+                         STUDENT HEADER
+                    ================================ -->
+
+                    <div class="mod-request-card-header">
+
+                        <div class="mod-request-identity">
+
+                            <div class="mod-request-avatar">
+                                {{ request_item.full_name[0] }}
+                            </div>
+
+
+                            <div>
+
+                                <div class="mod-request-name-row">
+
+                                    <h3>
+                                        {{ request_item.full_name }}
+                                    </h3>
+
+                                    <span class="badge badge-pending">
+                                        PENDING
+                                    </span>
+
+                                </div>
+
+
+                                {% if request_item.university_student_id %}
+
+                                    <p class="mod-request-student-id">
+                                        Student ID:
+                                        <strong>
+                                            {{ request_item.university_student_id }}
+                                        </strong>
+                                    </p>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        {% if request_item.requested_at %}
+
+                            <div class="mod-request-time">
+
+                                <span>
+                                    Requested
+                                </span>
+
+                                <strong>
+                                    {{ request_item.requested_at.strftime('%d %b %Y') }}
+                                </strong>
+
+                                <small>
+                                    {{ request_item.requested_at.strftime('%I:%M %p') }}
+                                </small>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ===============================
+                         STUDENT DETAILS
+                    ================================ -->
+
+                    <div class="mod-request-details-grid">
+
+                        <div class="mod-request-detail">
+
+                            <span class="mod-request-detail-label">
+                                Department
+                            </span>
+
+                            <strong>
+                                {{ request_item.department or "Not available" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="mod-request-detail">
+
+                            <span class="mod-request-detail-label">
+                                Batch
+                            </span>
+
+                            <strong>
+                                {{ request_item.batch or "Not available" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="mod-request-detail">
+
+                            <span class="mod-request-detail-label">
+                                Email
+                            </span>
+
+                            <strong class="mod-request-detail-value">
+                                {{ request_item.email }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="mod-request-detail">
+
+                            <span class="mod-request-detail-label">
+                                Phone
+                            </span>
+
+                            <strong>
+                                {{ request_item.phone or "Not available" }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ===============================
+                         ACTIONS
+                    ================================ -->
+
+                 <div class="mod-request-actions">
+
+    <form
+        method="POST"
+        action="{{ url_for(
+            'moderator_reject_membership',
+            membership_id=request_item.membership_id
+        ) }}"
+    >
+        <button
+            type="submit"
+            class="mod-request-reject-btn"
+        >
+            Reject
+        </button>
+    </form>
+
+
+    <form
+        method="POST"
+        action="{{ url_for(
+            'moderator_approve_membership',
+            membership_id=request_item.membership_id
+        ) }}"
+    >
+        <button
+            type="submit"
+            class="mod-request-approve-btn"
+        >
+            Approve Membership
+        </button>
+    </form>
+
+</div>   
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <!-- =================================================
+             EMPTY STATE
+        ================================================== -->
+
+        <div class="mod-request-empty">
+
+            <div class="mod-request-empty-icon">
+                ✓
+            </div>
+
+            <h3>
+                No Pending Requests
+            </h3>
+
+            <p>
+                There are currently no membership applications waiting for review.
+            </p>
+
+            <a
+                href="{{ url_for('moderator_dashboard') }}"
+                class="btn btn-secondary"
+            >
+                Back to Dashboard
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+# Environment secrets
+.env
+
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Flask temporary files
+instance/
+*.log
+
+# Runtime uploads
+static/uploads/profile_photos/*
+static/uploads/student_cvs/*
+static/uploads/event_gallery/*
+
+# Keep upload folders
+!static/uploads/profile_photos/.gitkeep
+!static/uploads/student_cvs/.gitkeep
+!static/uploads/event_gallery/.gitkeep

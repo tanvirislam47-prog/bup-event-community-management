@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ event.title }} - Event Gallery
+{% endblock %}
+
+
+{% block content %}
+
+<!-- =====================================================
+     EVENT GALLERY HERO
+===================================================== -->
+
+<section class="event-gallery-page-hero">
+
+    <button
+        type="button"
+        class="event-gallery-back"
+        onclick="history.back()"
+    >
+        ← Back
+    </button>
+
+
+    <span class="section-label">
+        Event Gallery
+    </span>
+
+
+    <h1>
+        {{ event.title }}
+    </h1>
+
+
+    <div class="event-gallery-event-meta">
+
+        {% if event.event_date %}
+            <span>
+                {{ event.event_date.strftime('%d %B %Y') }}
+            </span>
+        {% endif %}
+
+
+        {% if event.location %}
+            <span>
+                {{ event.location }}
+            </span>
+        {% endif %}
+
+
+        <span class="badge badge-approved">
+            {{ event.status }}
+        </span>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     EVENT INFORMATION
+===================================================== -->
+
+<section class="event-gallery-info">
+
+    <div class="card">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                Activity Details
+            </span>
+
+            <h2>
+                About This Event
+            </h2>
+
+        </div>
+
+
+        {% if event.description %}
+
+            <p>
+                {{ event.description }}
+            </p>
+
+        {% endif %}
+
+
+        {% if event.source_url %}
+
+            <a
+                href="{{ event.source_url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-secondary"
+            >
+                View Official Source
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     GALLERY MANAGEMENT
+===================================================== -->
+
+{% if can_manage_gallery %}
+
+<section class="gallery-management-section">
+
+    <div class="card gallery-upload-card">
+
+        <div>
+
+            <span class="section-label">
+                Gallery Management
+            </span>
+
+            <h2>
+                Upload Event Photos
+            </h2>
+
+            <p>
+                Add multiple photos from this event.
+            </p>
+
+        </div>
+
+
+        <form
+            action="{{ url_for('upload_event_gallery', event_id=event.event_id) }}"
+            method="POST"
+            enctype="multipart/form-data"
+            class="gallery-upload-form"
+        >
+
+            <input
+                type="file"
+                name="gallery_images"
+                accept=".jpg,.jpeg,.png,.webp"
+                multiple
+                required
+                class="gallery-file-input"
+            >
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                Upload Photos
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endif %}
+<!-- =====================================================
+     PHOTO GALLERY
+===================================================== -->
+
+<section class="event-gallery-page-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-label">
+                Photos
+            </span>
+
+            <h2>
+                Event Gallery
+            </h2>
+
+            <p>
+                Photos and moments from this event.
+            </p>
+
+        </div>
+
+
+        <div class="event-gallery-count">
+
+            {{ gallery_images|length }}
+            Photo{% if gallery_images|length != 1 %}s{% endif %}
+
+        </div>
+
+    </div>
+
+
+
+    {% if gallery_images %}
+
+        <div class="event-gallery-page-grid">
+
+            {% for photo in gallery_images %}
+
+                <figure class="event-gallery-page-item">
+
+                    <div class="event-gallery-page-image-wrap">
+
+                        <img
+                            src="{{ url_for('static', filename=photo.image_url) }}"
+                            alt="{{ photo.caption or event.title }}"
+                            class="event-gallery-page-image"
+                        >
+
+                    </div>
+
+
+                    {% if photo.caption %}
+
+                        <figcaption>
+                            {{ photo.caption }}
+                        </figcaption>
+
+                    {% endif %}
+
+                </figure>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <div class="event-gallery-empty-state">
+
+            <div class="event-gallery-empty-icon">
+                📷
+            </div>
+
+            <h3>
+                No Photos Yet
+            </h3>
+
+            <p>
+                Photos from this event will appear here once they are added.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+{% endblock %}

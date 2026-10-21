@@ -1,0 +1,2056 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ club.name }}
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- =====================================================
+     CLUB HERO
+===================================================== -->
+
+<section
+    class="club-hero"
+    style="
+        background-image:
+            linear-gradient(
+                90deg,
+                rgba(15, 23, 42, 0.94) 0%,
+                rgba(15, 23, 42, 0.82) 42%,
+                rgba(30, 64, 175, 0.62) 100%
+            ),
+            url('{{ url_for("static", filename="images/clubs/bup-cpc-cover.png") }}');
+
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    "
+>
+
+    <div class="club-hero-content">
+
+
+        <!-- Club Logo -->
+
+        <div class="club-logo-wrap">
+
+            <img
+                src="{{ url_for('static', filename='images/clubs/bup-cpc-logo.png') }}"
+                alt="{{ club.name }} Logo"
+                class="club-logo"
+                onerror="
+                    this.style.display='none';
+                    this.nextElementSibling.style.display='flex';
+                "
+            >
+
+            <div class="club-logo-fallback">
+                {{ club.name[0] }}
+            </div>
+
+        </div>
+
+
+        <!-- Hero Content -->
+
+        <div class="club-hero-text">
+
+            <span class="club-category">
+                {{ club.category }}
+            </span>
+
+
+            <h1>
+                {{ club.name }}
+            </h1>
+
+
+            <p class="club-tagline">
+
+                {% if club.motto %}
+
+                    {{ club.motto }}
+
+                {% else %}
+
+                    Learn. Connect. Participate. Grow.
+
+                {% endif %}
+
+            </p>
+
+
+            <!-- =================================================
+                 SMART HERO STATUS
+            ================================================== -->
+
+            <div class="club-hero-meta">
+
+                <span class="badge badge-active">
+                    {{ club.status }}
+                </span>
+
+
+                {% if session.get("role") == "STUDENT" %}
+
+
+                    {% if membership_status == "APPROVED" %}
+
+                        <span class="badge badge-approved">
+                            Active Member
+                        </span>
+
+
+                    {% elif application_status == "PENDING" %}
+
+                        <span class="badge badge-pending">
+                            Application: Under Review
+                        </span>
+
+
+                    {% elif application_status == "APPROVED" %}
+
+                        <span class="badge badge-approved">
+                            Application: Approved
+                        </span>
+
+
+                    {% elif application_status == "REJECTED" %}
+
+                        <span class="badge badge-rejected">
+                            Application: Rejected
+                        </span>
+
+
+                    {% elif application_status == "WITHDRAWN" %}
+
+                        <span class="badge">
+                            Application: Withdrawn
+                        </span>
+
+
+                    {% elif membership_status == "INACTIVE" %}
+
+                        <span class="badge badge-rejected">
+                            Membership: Inactive
+                        </span>
+
+
+                    {% endif %}
+
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- External Links -->
+
+            <div class="club-hero-actions">
+
+
+                {% if club.website_url %}
+
+                    <a
+                        href="{{ club.website_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary"
+                    >
+                        Official Website
+                    </a>
+
+                {% endif %}
+
+
+                {% if club.facebook_url %}
+
+                    <a
+                        href="{{ club.facebook_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-secondary"
+                    >
+                        Facebook Page
+                    </a>
+
+                {% endif %}
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SECTION NAVIGATION
+===================================================== -->
+
+<nav class="club-section-nav">
+
+    <a href="#about">
+        Overview
+    </a>
+
+    <a href="#identity">
+        Mission & Vision
+    </a>
+
+    <a href="#leadership">
+        Leadership
+    </a>
+
+    <a href="#contact">
+        Contact
+    </a>
+
+
+    {% if session.get("role") == "STUDENT" %}
+
+        <a href="#membership">
+            Membership
+        </a>
+
+    {% endif %}
+
+
+    <a href="#notices">
+        Notices
+    </a>
+
+    <a href="#achievements">
+        Achievements
+    </a>
+
+    <a href="#past-activities">
+        Past Activities
+    </a>
+
+    <a href="#events">
+        Events
+    </a>
+
+</nav>
+
+
+
+<!-- =====================================================
+     CLUB QUICK STATS
+===================================================== -->
+
+<section class="club-stats-section">
+
+    <div class="club-stats-grid">
+
+
+        <div class="club-stat-card">
+
+            <div class="club-stat-icon">
+                M
+            </div>
+
+            <div class="club-stat-info">
+
+                <span class="club-stat-number">
+                    {{ club_stats.total_members or 0 }}
+                </span>
+
+                <span class="club-stat-label">
+                    Active Members
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="club-stat-card">
+
+            <div class="club-stat-icon">
+                U
+            </div>
+
+            <div class="club-stat-info">
+
+                <span class="club-stat-number">
+                    {{ club_stats.upcoming_events or 0 }}
+                </span>
+
+                <span class="club-stat-label">
+                    Upcoming Events
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="club-stat-card">
+
+            <div class="club-stat-icon">
+                N
+            </div>
+
+            <div class="club-stat-info">
+
+                <span class="club-stat-number">
+                    {{ club_stats.published_notices or 0 }}
+                </span>
+
+                <span class="club-stat-label">
+                    Published Notices
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="club-stat-card">
+
+            <div class="club-stat-icon">
+                E
+            </div>
+
+            <div class="club-stat-info">
+
+                <span class="club-stat-number">
+                    {{ club_stats.total_events or 0 }}
+                </span>
+
+                <span class="club-stat-label">
+                    Total Events
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section id="about">
+
+    <div class="card">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                Club Overview
+            </span>
+
+            <h2>
+                About This Club
+            </h2>
+
+        </div>
+
+
+        <div class="club-information">
+
+
+            <div class="info-block">
+
+                <h3>
+                    Description
+                </h3>
+
+                {% if club.description %}
+
+                    <p>
+                        {{ club.description }}
+                    </p>
+
+                {% else %}
+
+                    <p>
+                        Club description is not currently available.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="info-block">
+
+                <h3>
+                    History
+                </h3>
+
+                {% if club.history %}
+
+                    <p>
+                        {{ club.history }}
+                    </p>
+
+                {% else %}
+
+                    <p>
+                        Club history is not currently available.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="info-block">
+
+                <h3>
+                    Membership Requirements
+                </h3>
+
+                {% if club.requirements %}
+
+                    <p>
+                        {{ club.requirements }}
+                    </p>
+
+                {% else %}
+
+                    <p>
+                        Membership requirements are not currently available.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MISSION / VISION / MOTTO
+===================================================== -->
+
+<section id="identity">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-label">
+                Club Identity
+            </span>
+
+            <h2>
+                Mission, Vision & Motto
+            </h2>
+
+            <p>
+                The purpose, direction and values that define the club.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="grid grid-3">
+
+
+        <!-- Mission -->
+
+        <div class="card identity-card">
+
+            <span class="identity-tag">
+                Mission
+            </span>
+
+            <h3>
+                Our Mission
+            </h3>
+
+            {% if club.mission %}
+
+                <p>
+                    {{ club.mission }}
+                </p>
+
+            {% else %}
+
+                <p>
+                    Mission information is not currently available.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- Vision -->
+
+        <div class="card identity-card">
+
+            <span class="identity-tag">
+                Vision
+            </span>
+
+            <h3>
+                Our Vision
+            </h3>
+
+            {% if club.vision %}
+
+                <p>
+                    {{ club.vision }}
+                </p>
+
+            {% else %}
+
+                <p>
+                    Vision information is not currently available.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- Motto -->
+
+        <div class="card identity-card motto-card">
+
+            <span class="identity-tag">
+                Motto
+            </span>
+
+            <h3>
+                Club Motto
+            </h3>
+
+            {% if club.motto %}
+
+                <p class="club-motto-text">
+                    “{{ club.motto }}”
+                </p>
+
+            {% else %}
+
+                <p class="club-motto-text">
+                    Motto not available.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     LEADERSHIP
+===================================================== -->
+
+<section id="leadership">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-label">
+                Club Leadership
+            </span>
+
+            <h2>
+                Leadership & Management
+            </h2>
+
+            <p>
+                Meet the people responsible for guiding
+                and managing the club.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if leadership %}
+
+        <div class="leadership-grid">
+
+
+            {% for leader in leadership %}
+
+                <article class="card leadership-card">
+
+
+                    <div class="leadership-photo-wrap">
+
+
+                        {% if leader.image_url %}
+
+                            <img
+                                src="{{ url_for('static', filename=leader.image_url) }}"
+                                alt="{{ leader.name }}"
+                                class="leadership-photo"
+                                onerror="
+                                    this.style.display='none';
+                                    this.nextElementSibling.style.display='flex';
+                                "
+                            >
+
+                            <div class="leadership-photo-fallback">
+                                {{ leader.name[0] }}
+                            </div>
+
+
+                        {% else %}
+
+
+                            <div
+                                class="leadership-photo-fallback"
+                                style="display:flex;"
+                            >
+                                {{ leader.name[0] }}
+                            </div>
+
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                    <div class="leadership-content">
+
+                        <span class="leadership-role">
+                            {{ leader.role_title }}
+                        </span>
+
+                        <h3>
+                            {{ leader.name }}
+                        </h3>
+
+
+                        {% if leader.academic_designation %}
+
+                            <p class="leadership-designation">
+                                {{ leader.academic_designation }}
+                            </p>
+
+                        {% endif %}
+
+
+                        {% if leader.department %}
+
+                            <p class="leadership-department">
+                                {{ leader.department }}
+                            </p>
+
+                        {% endif %}
+
+
+                        <div class="leadership-links">
+
+
+                            {% if leader.email %}
+
+                                <a
+                                    href="mailto:{{ leader.email }}"
+                                    class="leadership-link"
+                                >
+                                    Email
+                                </a>
+
+                            {% endif %}
+
+
+                            {% if leader.profile_url %}
+
+                                <a
+                                    href="{{ leader.profile_url }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="leadership-link leadership-profile-link"
+                                >
+                                    Official Profile
+                                </a>
+
+                            {% endif %}
+
+
+                        </div>
+
+                    </div>
+
+
+                </article>
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="empty-state">
+
+            <h3>
+                Leadership Information Coming Soon
+            </h3>
+
+            <p>
+                Leadership information for this club
+                is currently unavailable.
+            </p>
+
+        </div>
+
+
+    {% endif %}
+
+</section>
+
+
+
+<!-- =====================================================
+     CONTACT & OFFICIAL INFORMATION
+===================================================== -->
+
+<section id="contact">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-label">
+                Official Information
+            </span>
+
+            <h2>
+                Contact & Club Information
+            </h2>
+
+            <p>
+                Official contact and administrative
+                information for this club.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="contact-info-grid">
+
+
+        <!-- Administered By -->
+
+        <div class="card contact-info-card">
+
+            <div class="contact-info-icon">
+                A
+            </div>
+
+            <div class="contact-info-content">
+
+                <span class="contact-info-label">
+                    Administered By
+                </span>
+
+                <h3>
+                    {{ club.administered_by or 'Not available' }}
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <!-- Moderator Email -->
+
+        {% if leadership and leadership[0].email %}
+
+            <div class="card contact-info-card">
+
+                <div class="contact-info-icon">
+                    E
+                </div>
+
+                <div class="contact-info-content">
+
+                    <span class="contact-info-label">
+                        Moderator Email
+                    </span>
+
+                    <h3>
+                        {{ leadership[0].email }}
+                    </h3>
+
+                    <a
+                        href="mailto:{{ leadership[0].email }}"
+                        class="contact-info-link"
+                    >
+                        Send Email
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- Official Website -->
+
+        {% if club.website_url %}
+
+            <div class="card contact-info-card">
+
+                <div class="contact-info-icon">
+                    W
+                </div>
+
+                <div class="contact-info-content">
+
+                    <span class="contact-info-label">
+                        Official Website
+                    </span>
+
+                    <h3>
+                        BUP Club Page
+                    </h3>
+
+                    <a
+                        href="{{ club.website_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="contact-info-link"
+                    >
+                        Visit Website
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- Facebook -->
+
+        {% if club.facebook_url %}
+
+            <div class="card contact-info-card">
+
+                <div class="contact-info-icon">
+                    F
+                </div>
+
+                <div class="contact-info-content">
+
+                    <span class="contact-info-label">
+                        Social Media
+                    </span>
+
+                    <h3>
+                        Facebook Page
+                    </h3>
+
+                    <a
+                        href="{{ club.facebook_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="contact-info-link"
+                    >
+                        Open Facebook
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SMART MEMBERSHIP / APPLICATION
+===================================================== -->
+
+{% if session.get("role") == "STUDENT" %}
+
+<section
+    id="membership"
+    class="club-membership-section"
+>
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-label">
+                Join the Community
+            </span>
+
+            <h2>
+                Membership
+            </h2>
+
+            <p>
+                View your current application and
+                membership status for {{ club.name }}.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="smart-membership-card">
+
+
+        <!-- =================================================
+             ACTIVE MEMBER
+        ================================================== -->
+
+        {% if membership_status == "APPROVED" %}
+
+
+            <div class="membership-state-icon success">
+
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+
+            </div>
+
+
+            <div class="membership-state-content">
+
+                <span class="membership-state-badge success">
+                    ACTIVE MEMBER
+                </span>
+
+                <h3>
+                    You Are a Club Member
+                </h3>
+
+                <p>
+                    Your membership with {{ club.name }}
+                    is currently active.
+                </p>
+
+
+                <div class="membership-state-meta">
+
+                    <span class="membership-meta-dot success"></span>
+
+                    Membership approved and active
+
+                </div>
+
+            </div>
+
+
+
+        <!-- =================================================
+             APPLICATION PENDING
+        ================================================== -->
+
+        {% elif application_status == "PENDING" %}
+
+
+            <div class="membership-state-icon pending">
+
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M12 7v5l3 2"></path>
+                </svg>
+
+            </div>
+
+
+            <div class="membership-state-content">
+
+                <span class="membership-state-badge pending">
+                    APPLICATION PENDING
+                </span>
+
+                <h3>
+                    Application Under Review
+                </h3>
+
+                <p>
+                    Your membership application was submitted
+                    successfully and is currently waiting for
+                    moderator review.
+                </p>
+
+
+                {% if latest_application %}
+
+                    <div class="membership-application-info">
+
+
+                        <div>
+
+                            <span>
+                                Submitted
+                            </span>
+
+                            <strong>
+
+                                {% if latest_application.submitted_at %}
+
+                                    {{ latest_application.submitted_at.strftime('%d %b %Y, %I:%M %p') }}
+
+                                {% else %}
+
+                                    Submitted
+
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Application ID
+                            </span>
+
+                            <strong>
+                                #{{ latest_application.application_id }}
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Current Status
+                            </span>
+
+                            <strong class="membership-pending-text">
+                                Under Review
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="membership-state-notice">
+
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M12 8v4"></path>
+                        <path d="M12 16h.01"></path>
+                    </svg>
+
+
+                    <div>
+
+                        <strong>
+                            No action is required right now
+                        </strong>
+
+                        <span>
+                            Your application is waiting for
+                            review by the club moderator.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+        <!-- =================================================
+             APPROVED APPLICATION FALLBACK
+        ================================================== -->
+
+        {% elif application_status == "APPROVED" %}
+
+
+            <div class="membership-state-icon success">
+
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+
+            </div>
+
+
+            <div class="membership-state-content">
+
+                <span class="membership-state-badge success">
+                    APPLICATION APPROVED
+                </span>
+
+                <h3>
+                    Your Application Was Approved
+                </h3>
+
+                <p>
+                    Your application has been approved.
+                    Your active club membership will appear
+                    once membership activation is completed.
+                </p>
+
+            </div>
+
+
+
+        <!-- =================================================
+             REJECTED APPLICATION
+        ================================================== -->
+
+        {% elif application_status == "REJECTED" %}
+
+
+            <div class="membership-state-icon rejected">
+
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M9 9l6 6"></path>
+                    <path d="M15 9l-6 6"></path>
+                </svg>
+
+            </div>
+
+
+            <div class="membership-state-content">
+
+                <span class="membership-state-badge rejected">
+                    APPLICATION NOT APPROVED
+                </span>
+
+                <h3>
+                    Application Rejected
+                </h3>
+
+                <p>
+                    Your previous membership application
+                    was not approved.
+                </p>
+
+
+                {% if latest_application and latest_application.rejection_reason %}
+
+                    <div class="membership-rejection-box">
+
+                        <span>
+                            Moderator Feedback
+                        </span>
+
+                        <p>
+                            {{ latest_application.rejection_reason }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+
+                <a
+                    href="{{ url_for(
+                        'club_application_form',
+                        club_id=club.club_id
+                    ) }}"
+                    class="membership-primary-btn"
+                >
+
+                    Apply Again
+
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 12h14"></path>
+                        <path d="M13 6l6 6-6 6"></path>
+                    </svg>
+
+                </a>
+
+            </div>
+
+
+
+        <!-- =================================================
+             WITHDRAWN APPLICATION
+        ================================================== -->
+
+        {% elif application_status == "WITHDRAWN" %}
+
+
+            <div class="membership-state-icon neutral">
+
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M8 12h8"></path>
+                </svg>
+
+            </div>
+
+
+            <div class="membership-state-content">
+
+                <span class="membership-state-badge neutral">
+                    APPLICATION WITHDRAWN
+                </span>
+
+                <h3>
+                    Previous Application Withdrawn
+                </h3>
+
+                <p>
+                    Your previous application was withdrawn.
+                    You may submit a new application whenever
+                    you are ready.
+                </p>
+
+
+                <a
+                    href="{{ url_for(
+                        'club_application_form',
+                        club_id=club.club_id
+                    ) }}"
+                    class="membership-primary-btn"
+                >
+
+                    Apply Again
+
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 12h14"></path>
+                        <path d="M13 6l6 6-6 6"></path>
+                    </svg>
+
+                </a>
+
+            </div>
+
+
+
+        <!-- =================================================
+             INACTIVE MEMBERSHIP
+        ================================================== -->
+
+        {% elif membership_status == "INACTIVE" %}
+
+
+            <div class="membership-state-icon neutral">
+
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M8 12h8"></path>
+                </svg>
+
+            </div>
+
+
+            <div class="membership-state-content">
+
+                <span class="membership-state-badge neutral">
+                    MEMBERSHIP INACTIVE
+                </span>
+
+                <h3>
+                    Your Membership Is Inactive
+                </h3>
+
+                <p>
+                    Your previous membership is currently
+                    inactive. You may submit a new application.
+                </p>
+
+
+                <a
+                    href="{{ url_for(
+                        'club_application_form',
+                        club_id=club.club_id
+                    ) }}"
+                    class="membership-primary-btn"
+                >
+
+                    Apply Again
+
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 12h14"></path>
+                        <path d="M13 6l6 6-6 6"></path>
+                    </svg>
+
+                </a>
+
+            </div>
+
+
+
+        <!-- =================================================
+             NEW APPLICATION
+        ================================================== -->
+
+        {% else %}
+
+
+            <div class="membership-state-icon default">
+
+                <svg viewBox="0 0 24 24">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M19 8v6"></path>
+                    <path d="M22 11h-6"></path>
+                </svg>
+
+            </div>
+
+
+            <div class="membership-state-content">
+
+                <span class="membership-state-badge default">
+                    MEMBERSHIP AVAILABLE
+                </span>
+
+                <h3>
+                    Become a Member
+                </h3>
+
+                <p>
+                    Join {{ club.name }} to participate
+                    in activities, events and the student
+                    community.
+                </p>
+
+
+                {% if club.requirements %}
+
+                    <div class="membership-requirement-box">
+
+                        <span>
+                            Before You Apply
+                        </span>
+
+                        <p>
+                            {{ club.requirements }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+
+                <a
+                    href="{{ url_for(
+                        'club_application_form',
+                        club_id=club.club_id
+                    ) }}"
+                    class="membership-primary-btn"
+                >
+
+                    Apply for Membership
+
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 12h14"></path>
+                        <path d="M13 6l6 6-6 6"></path>
+                    </svg>
+
+                </a>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+
+<!-- =====================================================
+     CLUB NOTICES
+===================================================== -->
+
+<section id="notices">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-label">
+                Stay Updated
+            </span>
+
+            <h2>
+                Club Notices
+            </h2>
+
+            <p>
+                Latest notices published by this club.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if notices %}
+
+        <div class="notice-list">
+
+
+            {% for notice in notices %}
+
+                <article class="card notice-card">
+
+                    <div class="notice-card-top">
+
+                        <span class="notice-type">
+                            Notice
+                        </span>
+
+
+                        {% if notice.published_at %}
+
+                            <span class="notice-date">
+                                {{ notice.published_at }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <h3>
+                        {{ notice.title }}
+                    </h3>
+
+
+                    <p>
+                        {{ notice.content }}
+                    </p>
+
+                </article>
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="empty-state">
+
+            <h3>
+                No Notices
+            </h3>
+
+            <p>
+                No published notices are currently available.
+            </p>
+
+        </div>
+
+
+    {% endif %}
+
+</section>
+
+
+
+<!-- =====================================================
+     CLUB ACHIEVEMENTS
+===================================================== -->
+
+<section id="achievements">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-label">
+                Club Milestones
+            </span>
+
+            <h2>
+                Achievements & Highlights
+            </h2>
+
+            <p>
+                Verified milestones and notable
+                accomplishments of the club.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if achievements %}
+
+
+        <div class="achievement-grid">
+
+
+            {% for achievement in achievements %}
+
+
+                <article class="achievement-card">
+
+                    <div class="achievement-year">
+
+                        {% if achievement.achievement_date %}
+
+                            {{ achievement.achievement_date.strftime('%Y') }}
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="achievement-content">
+
+                        <span class="achievement-badge">
+                            Achievement
+                        </span>
+
+                        <h3>
+                            {{ achievement.title }}
+                        </h3>
+
+
+                        {% if achievement.description %}
+
+                            <p>
+                                {{ achievement.description }}
+                            </p>
+
+                        {% endif %}
+
+
+                        {% if achievement.achievement_date %}
+
+                            <div class="achievement-date">
+
+                                {{ achievement.achievement_date.strftime('%d %B %Y') }}
+
+                            </div>
+
+                        {% endif %}
+
+
+                    </div>
+
+                </article>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="empty-state">
+
+            <h3>
+                No Achievements Yet
+            </h3>
+
+            <p>
+                Published club achievements will appear here.
+            </p>
+
+        </div>
+
+
+    {% endif %}
+
+</section>
+
+
+
+<!-- =====================================================
+     PAST ACTIVITIES
+===================================================== -->
+
+<section id="past-activities">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-label">
+                Event History
+            </span>
+
+            <h2>
+                Past Activities
+            </h2>
+
+            <p>
+                Explore previous activities and events
+                organized by this club.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if past_activities %}
+
+
+        <div class="past-activities-grid">
+
+
+            {% for activity in past_activities %}
+
+
+                <article class="past-activity-card">
+
+
+                    {% if activity.image_url %}
+
+                        <div class="past-activity-image-wrap">
+
+                            <img
+                                src="{{ url_for('static', filename=activity.image_url) }}"
+                                alt="{{ activity.title }}"
+                                class="past-activity-image"
+                            >
+
+                            <span class="past-activity-status">
+                                COMPLETED
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <div class="past-activity-content">
+
+
+                        {% if activity.event_date %}
+
+                            <div class="past-activity-date">
+
+                                {{ activity.event_date.strftime('%d %B %Y') }}
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <h3>
+                            {{ activity.title }}
+                        </h3>
+
+
+                        {% if activity.description %}
+
+                            <p class="past-activity-description">
+                                {{ activity.description }}
+                            </p>
+
+                        {% endif %}
+
+
+                        <div class="past-activity-meta">
+
+
+                            {% if activity.location %}
+
+                                <div class="past-activity-meta-item">
+
+                                    <strong>
+                                        Location:
+                                    </strong>
+
+                                    <span>
+                                        {{ activity.location }}
+                                    </span>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            {% if activity.start_time %}
+
+                                <div class="past-activity-meta-item">
+
+                                    <strong>
+                                        Time:
+                                    </strong>
+
+                                    <span>
+
+                                        {{ activity.start_time }}
+
+                                        {% if activity.end_time %}
+                                            - {{ activity.end_time }}
+                                        {% endif %}
+
+                                    </span>
+
+                                </div>
+
+                            {% endif %}
+
+
+                        </div>
+
+
+                        {% if activity.source_url %}
+
+                            <a
+                                href="{{ activity.source_url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="past-activity-source"
+                            >
+                                View Official Source
+                            </a>
+
+                        {% endif %}
+
+
+                        {% set gallery = event_galleries.get(
+                            activity.event_id,
+                            []
+                        ) %}
+
+
+                        <div class="event-gallery-action">
+
+                            <a
+                                href="{{ url_for(
+                                    'event_gallery',
+                                    event_id=activity.event_id
+                                ) }}"
+                                class="event-gallery-button"
+                            >
+
+                                <span class="event-gallery-button-icon">
+                                    📷
+                                </span>
+
+
+                                <span class="event-gallery-button-text">
+
+                                    <strong>
+                                        Event Gallery
+                                    </strong>
+
+                                    <small>
+
+                                        {{ gallery|length }}
+
+                                        Photo{% if gallery|length != 1 %}s{% endif %}
+
+                                    </small>
+
+                                </span>
+
+
+                                <span class="event-gallery-button-arrow">
+                                    →
+                                </span>
+
+                            </a>
+
+                        </div>
+
+
+                    </div>
+
+                </article>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="empty-state">
+
+            <h3>
+                No Past Activities
+            </h3>
+
+            <p>
+                Completed club activities will appear here.
+            </p>
+
+        </div>
+
+
+    {% endif %}
+
+</section>
+
+
+
+<!-- =====================================================
+     CLUB EVENTS
+===================================================== -->
+
+<section id="events">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-label">
+                What's Happening
+            </span>
+
+            <h2>
+                Club Events
+            </h2>
+
+            <p>
+                Upcoming and recent events organized
+                by this club.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if events %}
+
+
+        <div class="grid grid-2">
+
+
+            {% for event in events %}
+
+
+                <article class="card event-card">
+
+
+                    <div class="event-date-box">
+
+                        <span class="event-day">
+
+                            {{ event.event_date.strftime('%d') }}
+
+                        </span>
+
+                        <span class="event-month">
+
+                            {{ event.event_date.strftime('%b') }}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="event-content">
+
+
+                        <div class="event-top">
+
+
+                            {% if event.status == "UPCOMING" %}
+
+                                <span class="badge badge-active">
+                                    UPCOMING
+                                </span>
+
+
+                            {% elif event.status == "COMPLETED" %}
+
+                                <span class="badge badge-approved">
+                                    COMPLETED
+                                </span>
+
+
+                            {% elif event.status == "CANCELLED" %}
+
+                                <span class="badge badge-rejected">
+                                    CANCELLED
+                                </span>
+
+
+                            {% else %}
+
+                                <span class="badge">
+                                    {{ event.status }}
+                                </span>
+
+                            {% endif %}
+
+
+                        </div>
+
+
+                        <h3>
+                            {{ event.title }}
+                        </h3>
+
+
+                        {% if event.description %}
+
+                            <p class="event-description">
+                                {{ event.description }}
+                            </p>
+
+                        {% endif %}
+
+
+                        <div class="event-details">
+
+
+                            <p>
+
+                                <strong>
+                                    Date:
+                                </strong>
+
+                                {{ event.event_date }}
+
+                            </p>
+
+
+                            {% if event.start_time %}
+
+                                <p>
+
+                                    <strong>
+                                        Time:
+                                    </strong>
+
+                                    {{ event.start_time }}
+
+                                    {% if event.end_time %}
+
+                                        - {{ event.end_time }}
+
+                                    {% endif %}
+
+                                </p>
+
+                            {% endif %}
+
+
+                            {% if event.location %}
+
+                                <p>
+
+                                    <strong>
+                                        Location:
+                                    </strong>
+
+                                    {{ event.location }}
+
+                                </p>
+
+                            {% endif %}
+
+
+                        </div>
+
+                    </div>
+
+
+                </article>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="empty-state">
+
+            <h3>
+                No Events
+            </h3>
+
+            <p>
+                No club events are currently available.
+            </p>
+
+        </div>
+
+
+    {% endif %}
+
+</section>
+
+
+
+<!-- =====================================================
+     BOTTOM ACTION
+===================================================== -->
+
+<div class="club-bottom-actions">
+
+    <a
+        href="{{ url_for('clubs') }}"
+        class="btn btn-secondary"
+    >
+        Back to Clubs
+    </a>
+
+</div>
+
+
+{% endblock %}

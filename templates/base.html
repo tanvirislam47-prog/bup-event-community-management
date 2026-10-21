@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}University Event Management{% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <div class="topbar-container">
+
+            <a href="{{ url_for('student_dashboard') }}" class="brand">
+                BUP Event & Community
+            </a>
+
+            {% if session.get('user_id') %}
+
+                <nav class="top-nav">
+
+                    {% if session.get('role') == 'STUDENT' %}
+
+                        <a href="{{ url_for('student_dashboard') }}">
+                            Dashboard
+                        </a>
+
+                        <a href="{{ url_for('clubs') }}">
+                            Clubs
+                        </a>
+
+                        <a href="{{ url_for('my_memberships') }}">
+                            Memberships
+                        </a>
+
+                        <a href="{{ url_for('profile') }}">
+                            Profile
+                        </a>
+
+                    {% endif %}
+
+                    <a href="{{ url_for('logout') }}" class="logout-link">
+                        Logout
+                    </a>
+
+                </nav>
+
+            {% endif %}
+
+        </div>
+
+    </header>
+
+
+    <main class="page-container">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+</body>
+</html>

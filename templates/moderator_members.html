@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block title %}
+Club Members
+{% endblock %}
+
+{% block content %}
+
+<section class="mod-members-page">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="mod-members-header">
+
+        <div>
+
+            <span class="section-label">
+                Member Management
+            </span>
+
+            <h1>
+                Club Members
+            </h1>
+
+            <p>
+                View approved members of
+                <strong>{{ moderator_club.club_name }}</strong>.
+            </p>
+
+        </div>
+
+        <a
+            href="{{ url_for('moderator_dashboard') }}"
+            class="mod-back-dashboard"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         MEMBER SUMMARY
+    ====================================================== -->
+
+    <div class="mod-members-summary">
+
+        <div>
+
+            <span class="mod-members-summary-label">
+                Active Members
+            </span>
+
+            <strong class="mod-members-summary-number">
+                {{ members|length }}
+            </strong>
+
+        </div>
+
+        <p>
+            These students currently have approved club memberships.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         MEMBER LIST
+    ====================================================== -->
+
+    {% if members %}
+
+        <div class="mod-member-list">
+
+            {% for member in members %}
+
+                <article class="mod-member-card">
+
+                    <!-- ===============================
+                         MEMBER HEADER
+                    ================================ -->
+
+                    <div class="mod-member-card-header">
+
+                        <div class="mod-member-identity">
+
+                            <div class="mod-member-avatar">
+                                {{ member.full_name[0] }}
+                            </div>
+
+                            <div>
+
+                                <div class="mod-member-name-row">
+
+                                    <h3>
+                                        {{ member.full_name }}
+                                    </h3>
+
+                                    <span class="badge badge-approved">
+                                        APPROVED
+                                    </span>
+
+                                </div>
+
+                                {% if member.university_student_id %}
+
+                                    <p class="mod-member-student-id">
+                                        Student ID:
+                                        <strong>
+                                            {{ member.university_student_id }}
+                                        </strong>
+                                    </p>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        {% if member.joined_at %}
+
+                            <div class="mod-member-joined">
+
+                                <span>
+                                    Joined
+                                </span>
+
+                                <strong>
+                                    {{ member.joined_at.strftime('%d %b %Y') }}
+                                </strong>
+
+                                <small>
+                                    {{ member.joined_at.strftime('%I:%M %p') }}
+                                </small>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ===============================
+                         MEMBER DETAILS
+                    ================================ -->
+
+                    <div class="mod-member-details-grid">
+
+                        <div class="mod-member-detail">
+
+                            <span class="mod-member-detail-label">
+                                Department
+                            </span>
+
+                            <strong>
+                                {{ member.department or "Not available" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="mod-member-detail">
+
+                            <span class="mod-member-detail-label">
+                                Batch
+                            </span>
+
+                            <strong>
+                                {{ member.batch or "Not available" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="mod-member-detail">
+
+                            <span class="mod-member-detail-label">
+                                Email
+                            </span>
+
+                            <strong class="mod-member-detail-value">
+                                {{ member.email }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="mod-member-detail">
+
+                            <span class="mod-member-detail-label">
+                                Phone
+                            </span>
+
+                            <strong>
+                                {{ member.phone or "Not available" }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ===============================
+                         ACTIONS
+                    ================================ -->
+
+                    <div class="mod-member-actions">
+
+                        <a
+                            href="#"
+                            class="mod-member-profile-btn"
+                        >
+                            View Student Profile
+                        </a>
+
+                        <button
+                            type="button"
+                            class="mod-member-remove-btn"
+                        >
+                            Remove Member
+                        </button>
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <!-- =================================================
+             EMPTY STATE
+        ================================================== -->
+
+        <div class="mod-members-empty">
+
+            <div class="mod-members-empty-icon">
+                👥
+            </div>
+
+            <h3>
+                No Approved Members
+            </h3>
+
+            <p>
+                Approved club members will appear here.
+            </p>
+
+            <a
+                href="{{ url_for('moderator_dashboard') }}"
+                class="btn btn-secondary"
+            >
+                Back to Dashboard
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

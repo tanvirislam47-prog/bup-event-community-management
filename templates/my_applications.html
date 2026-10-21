@@ -1,0 +1,522 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Applications
+{% endblock %}
+
+{% block content %}
+
+<div class="my-applications-page">
+
+    <div class="my-applications-container">
+
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+
+        <section class="my-applications-hero">
+
+            <div>
+
+                <span class="my-applications-eyebrow">
+                    STUDENT APPLICATIONS
+                </span>
+
+                <h1>
+                    My Applications
+                </h1>
+
+                <p>
+                    Track your club membership applications
+                    and review their current status.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('clubs') }}"
+                class="my-applications-browse-btn"
+            >
+                Browse Clubs
+
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 12h14"></path>
+                    <path d="M13 6l6 6-6 6"></path>
+                </svg>
+            </a>
+
+        </section>
+
+
+        <!-- =====================================================
+             STATS
+        ====================================================== -->
+
+        <section class="my-applications-stats">
+
+            <div class="application-stat-card">
+
+                <span>
+                    Total Applications
+                </span>
+
+                <strong>
+                    {{ application_stats.total }}
+                </strong>
+
+            </div>
+
+
+            <div class="application-stat-card pending">
+
+                <span>
+                    Pending
+                </span>
+
+                <strong>
+                    {{ application_stats.pending }}
+                </strong>
+
+            </div>
+
+
+            <div class="application-stat-card approved">
+
+                <span>
+                    Approved
+                </span>
+
+                <strong>
+                    {{ application_stats.approved }}
+                </strong>
+
+            </div>
+
+
+            <div class="application-stat-card rejected">
+
+                <span>
+                    Rejected
+                </span>
+
+                <strong>
+                    {{ application_stats.rejected }}
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             APPLICATION LIST
+        ====================================================== -->
+
+        <section class="my-applications-section">
+
+            <div class="my-applications-section-header">
+
+                <div>
+
+                    <span>
+                        APPLICATION HISTORY
+                    </span>
+
+                    <h2>
+                        Membership Applications
+                    </h2>
+
+                </div>
+
+                <span class="applications-count-badge">
+
+                    {{ applications|length }}
+                    Application{% if applications|length != 1 %}s{% endif %}
+
+                </span>
+
+            </div>
+
+
+            {% if applications %}
+
+                <div class="applications-list">
+
+                    {% for application in applications %}
+
+                        <article class="student-application-card">
+
+                            <!-- =================================
+                                 STATUS ICON
+                            ================================== -->
+
+                            <div
+                                class="
+                                    student-application-status-icon
+
+                                    {% if application.status == 'PENDING' %}
+                                        pending
+                                    {% elif application.status == 'APPROVED' %}
+                                        approved
+                                    {% elif application.status == 'REJECTED' %}
+                                        rejected
+                                    {% elif application.status == 'WITHDRAWN' %}
+                                        withdrawn
+                                    {% else %}
+                                        default
+                                    {% endif %}
+                                "
+                            >
+
+                                {% if application.status == "PENDING" %}
+
+                                    <svg viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="9"></circle>
+                                        <path d="M12 7v5l3 2"></path>
+                                    </svg>
+
+                                {% elif application.status == "APPROVED" %}
+
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M20 6L9 17l-5-5"></path>
+                                    </svg>
+
+                                {% elif application.status == "REJECTED" %}
+
+                                    <svg viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="9"></circle>
+                                        <path d="M9 9l6 6"></path>
+                                        <path d="M15 9l-6 6"></path>
+                                    </svg>
+
+                                {% else %}
+
+                                    <svg viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="9"></circle>
+                                        <path d="M8 12h8"></path>
+                                    </svg>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- =================================
+                                 CONTENT
+                            ================================== -->
+
+                            <div class="student-application-content">
+
+                                <div class="student-application-top">
+
+                                    <div>
+
+                                        <span class="student-application-category">
+                                            {{ application.club_category or 'Student Club' }}
+                                        </span>
+
+                                        <h3>
+                                            {{ application.club_name }}
+                                        </h3>
+
+                                    </div>
+
+
+                                    <span
+                                        class="
+                                            student-application-status
+
+                                            {% if application.status == 'PENDING' %}
+                                                pending
+                                            {% elif application.status == 'APPROVED' %}
+                                                approved
+                                            {% elif application.status == 'REJECTED' %}
+                                                rejected
+                                            {% elif application.status == 'WITHDRAWN' %}
+                                                withdrawn
+                                            {% else %}
+                                                default
+                                            {% endif %}
+                                        "
+                                    >
+                                        {{ application.status }}
+                                    </span>
+
+                                </div>
+
+
+                                <!-- =================================
+                                     META
+                                ================================== -->
+
+                                <div class="student-application-meta">
+
+                                    <div>
+
+                                        <span>
+                                            Application ID
+                                        </span>
+
+                                        <strong>
+                                            #{{ application.application_id }}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span>
+                                            Submitted
+                                        </span>
+
+                                        <strong>
+
+                                            {% if application.submitted_at %}
+
+                                                {{ application.submitted_at.strftime('%d %b %Y') }}
+
+                                            {% else %}
+
+                                                Not submitted
+
+                                            {% endif %}
+
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span>
+                                            Decision
+                                        </span>
+
+                                        <strong>
+
+                                            {% if application.reviewed_at %}
+
+                                                {{ application.reviewed_at.strftime('%d %b %Y') }}
+
+                                            {% else %}
+
+                                                Pending review
+
+                                            {% endif %}
+
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- =================================
+                                     STATUS MESSAGE
+                                ================================== -->
+
+                                {% if application.status == "PENDING" %}
+
+                                    <div class="student-application-message pending">
+
+                                        <strong>
+                                            Application Under Review
+                                        </strong>
+
+                                        <span>
+                                            Your application is waiting
+                                            for moderator review.
+                                        </span>
+
+                                    </div>
+
+
+                                {% elif application.status == "APPROVED" %}
+
+                                    <div class="student-application-message approved">
+
+                                        <strong>
+                                            Application Approved
+                                        </strong>
+
+                                        <span>
+                                            Your membership application
+                                            has been approved.
+                                        </span>
+
+                                    </div>
+
+
+                                {% elif application.status == "REJECTED" %}
+
+                                    <div class="student-application-message rejected">
+
+                                        <strong>
+                                            Application Not Approved
+                                        </strong>
+
+                                        {% if application.rejection_reason %}
+
+                                            <span>
+                                                {{ application.rejection_reason }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span>
+                                                No moderator feedback
+                                                was provided.
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                {% elif application.status == "WITHDRAWN" %}
+
+                                    <div class="student-application-message withdrawn">
+
+                                        <strong>
+                                            Application Withdrawn
+                                        </strong>
+
+                                        <span>
+                                            This application was withdrawn.
+                                        </span>
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                <!-- =================================
+                                     ACTIONS
+                                ================================== -->
+
+                                <div class="student-application-actions">
+
+    <!-- View Club -->
+
+    <a
+        href="{{ url_for(
+            'club_details',
+            club_id=application.club_id
+        ) }}"
+        class="student-application-secondary-btn"
+    >
+        View Club
+    </a>
+
+
+    <!-- =========================================
+         PENDING → WITHDRAW
+    ========================================== -->
+
+    {% if application.status == "PENDING" %}
+
+        <form
+            method="POST"
+            action="{{ url_for(
+                'withdraw_application',
+                application_id=application.application_id
+            ) }}"
+            onsubmit="
+                return confirm(
+                    'Are you sure you want to withdraw this application?'
+                );
+            "
+        >
+
+            <button
+                type="submit"
+                class="student-application-secondary-btn"
+            >
+                Withdraw Application
+            </button>
+
+        </form>
+
+
+    <!-- =========================================
+         REJECTED / WITHDRAWN → APPLY AGAIN
+    ========================================== -->
+
+    {% elif application.status == "REJECTED"
+          or application.status == "WITHDRAWN" %}
+
+        <a
+            href="{{ url_for(
+                'club_application_form',
+                club_id=application.club_id
+            ) }}"
+            class="student-application-primary-btn"
+        >
+
+            Apply Again
+
+            <svg viewBox="0 0 24 24">
+                <path d="M5 12h14"></path>
+                <path d="M13 6l6 6-6 6"></path>
+            </svg>
+
+        </a>
+
+    {% endif %}
+
+</div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+
+            {% else %}
+
+                <!-- =================================================
+                     EMPTY STATE
+                ================================================== -->
+
+                <div class="my-applications-empty">
+
+                    <div class="my-applications-empty-icon">
+
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 3h9l3 3v15H6z"></path>
+                            <path d="M14 3v4h4"></path>
+                            <path d="M9 12h6"></path>
+                            <path d="M9 16h4"></path>
+                        </svg>
+
+                    </div>
+
+                    <h3>
+                        No Applications Yet
+                    </h3>
+
+                    <p>
+                        You have not submitted any club
+                        membership applications yet.
+                    </p>
+
+                    <a
+                        href="{{ url_for('clubs') }}"
+                        class="student-application-primary-btn"
+                    >
+                        Explore Clubs
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}

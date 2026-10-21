@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Edit Profile | BUP Event & Community
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="profile-editor-body">
+
+
+<!-- =====================================================
+     TOPBAR
+===================================================== -->
+
+<header class="profile-editor-topbar">
+
+    <div class="profile-editor-topbar-inner">
+
+        <a
+            href="{{ url_for('student_dashboard') }}"
+            class="profile-editor-brand"
+        >
+            BUP Event & Community
+        </a>
+
+
+        <div class="profile-editor-nav">
+
+            <a href="{{ url_for('student_dashboard') }}">
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('profile') }}">
+                My Profile
+            </a>
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="profile-editor-logout"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     PAGE
+===================================================== -->
+
+<main class="profile-editor-page">
+
+
+    <!-- =================================================
+         PAGE HEADER
+    ================================================== -->
+
+    <section class="profile-editor-header">
+
+        <div>
+
+            <span class="profile-editor-eyebrow">
+                STUDENT PROFILE
+            </span>
+
+            <h1>
+                Edit your profile
+            </h1>
+
+            <p>
+                Keep your academic, personal and professional
+                information up to date.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('profile') }}"
+            class="profile-editor-view-btn"
+        >
+
+            View Profile
+
+            <span>
+                →
+            </span>
+
+        </a>
+
+    </section>
+
+
+
+    <!-- =================================================
+         PROFILE FORM
+    ================================================== -->
+
+    <form
+        method="POST"
+        action="{{ url_for('edit_profile') }}"
+        enctype="multipart/form-data"
+        class="profile-editor-form"
+    >
+
+
+        <!-- =================================================
+             PROFILE SUMMARY
+        ================================================== -->
+
+        <section class="profile-editor-summary-card">
+
+            <div class="profile-editor-avatar">
+
+                {% if student.profile_photo %}
+
+                    {% if student.profile_photo.startswith('http') %}
+
+                        <img
+                            src="{{ student.profile_photo }}"
+                            alt="{{ student.full_name }}"
+                        >
+
+                    {% else %}
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename=student.profile_photo
+                            ) }}"
+                            alt="{{ student.full_name }}"
+                        >
+
+                    {% endif %}
+
+                {% else %}
+
+                    <span>
+                        {{ student.full_name[0] | upper }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="profile-editor-summary-content">
+
+                <span>
+                    YOUR PROFILE
+                </span>
+
+                <h2>
+                    {{ student.full_name }}
+                </h2>
+
+                <p>
+                    {{ student.student_id }}
+                    ·
+                    {{ student.department }}
+                    ·
+                    Batch {{ student.batch }}
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             BASIC INFORMATION
+        ================================================== -->
+
+        <section class="profile-editor-card">
+
+            <div class="profile-editor-card-heading">
+
+                <div class="profile-editor-section-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <circle
+                            cx="12"
+                            cy="8"
+                            r="4"
+                        ></circle>
+
+                        <path
+                            d="M4 21a8 8 0 0 1 16 0"
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        PERSONAL DETAILS
+                    </span>
+
+                    <h2>
+                        Basic Information
+                    </h2>
+
+                    <p>
+                        Your primary student account information.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="profile-editor-grid">
+
+
+                <!-- Full Name -->
+
+                <div class="profile-editor-field">
+
+                    <label for="full_name">
+                        Full Name
+                        <span>*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        value="{{ student.full_name or '' }}"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- Email -->
+
+                <div class="profile-editor-field">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        value="{{ student.email or '' }}"
+                        readonly
+                    >
+
+                    <small>
+                        Your registered email cannot be changed here.
+                    </small>
+
+                </div>
+
+
+
+                <!-- Phone -->
+
+                <div class="profile-editor-field">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        value="{{ student.phone or '' }}"
+                        placeholder="+880 1XXXXXXXXX"
+                    >
+
+                </div>
+
+
+
+                <!-- Student ID -->
+
+                <div class="profile-editor-field">
+
+                    <label for="student_id">
+                        Student ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="student_id"
+                        value="{{ student.student_id or '' }}"
+                        readonly
+                    >
+
+                    <small>
+                        Student ID is part of your academic identity.
+                    </small>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ACADEMIC INFORMATION
+        ================================================== -->
+
+        <section class="profile-editor-card">
+
+            <div class="profile-editor-card-heading">
+
+                <div class="profile-editor-section-icon academic">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path
+                            d="M3 10l9-5 9 5-9 5z"
+                        ></path>
+
+                        <path
+                            d="M7 12v5c3 2 7 2 10 0v-5"
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        ACADEMIC IDENTITY
+                    </span>
+
+                    <h2>
+                        Academic Information
+                    </h2>
+
+                    <p>
+                        Your university academic details.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="profile-editor-grid">
+
+
+                <!-- Department -->
+
+                <div class="profile-editor-field">
+
+                    <label for="department">
+                        Department
+                        <span>*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="department"
+                        name="department"
+                        value="{{ student.department or '' }}"
+                        placeholder="e.g. ICT"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- Batch -->
+
+                <div class="profile-editor-field">
+
+                    <label for="batch">
+                        Batch
+                        <span>*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="batch"
+                        name="batch"
+                        value="{{ student.batch or '' }}"
+                        placeholder="e.g. 23"
+                        required
+                    >
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PROFESSIONAL PROFILE
+        ================================================== -->
+
+        <section class="profile-editor-card">
+
+            <div class="profile-editor-card-heading">
+
+                <div class="profile-editor-section-icon professional">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <rect
+                            x="3"
+                            y="7"
+                            width="18"
+                            height="13"
+                            rx="2"
+                        ></rect>
+
+                        <path d="M8 7V5h8v2"></path>
+
+                        <path d="M3 12h18"></path>
+
+                    </svg>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        PROFESSIONAL PROFILE
+                    </span>
+
+                    <h2>
+                        About & Skills
+                    </h2>
+
+                    <p>
+                        Build a profile moderators can understand
+                        when reviewing your applications.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PROFILE PHOTO UPLOAD
+            ================================================== -->
+
+            <div class="profile-editor-field full-width">
+
+                <label>
+                    Profile Photo
+                </label>
+
+
+                <div class="student-file-upload-box">
+
+
+                    <div class="student-file-preview">
+
+
+                        {% if student.profile_photo %}
+
+
+                            {% if student.profile_photo.startswith('http') %}
+
+                                <img
+                                    src="{{ student.profile_photo }}"
+                                    alt="Current profile photo"
+                                    id="profilePhotoPreview"
+                                >
+
+                            {% else %}
+
+                                <img
+                                    src="{{ url_for(
+                                        'static',
+                                        filename=student.profile_photo
+                                    ) }}"
+                                    alt="Current profile photo"
+                                    id="profilePhotoPreview"
+                                >
+
+                            {% endif %}
+
+
+                        {% else %}
+
+
+                            <div
+                                class="student-file-avatar-placeholder"
+                                id="profilePhotoPlaceholder"
+                            >
+
+                                {{ student.full_name[0] | upper }}
+
+                            </div>
+
+
+                            <img
+                                id="profilePhotoPreview"
+                                alt="Profile preview"
+                                style="display: none;"
+                            >
+
+
+                        {% endif %}
+
+
+                    </div>
+
+
+
+                    <div class="student-file-upload-content">
+
+                        <strong>
+                            Upload profile photo
+                        </strong>
+
+                        <p>
+                            Upload a clear professional photo.
+                            JPG, JPEG, PNG or WEBP.
+                        </p>
+
+
+                        <label
+                            for="profile_photo_file"
+                            class="student-file-select-btn"
+                        >
+                            Choose Photo
+                        </label>
+
+
+                        <input
+                            type="file"
+                            id="profile_photo_file"
+                            name="profile_photo_file"
+                            accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                            class="student-hidden-file-input"
+                        >
+
+
+                        <span
+                            class="student-file-name"
+                            id="profilePhotoFileName"
+                        >
+                            No new photo selected
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Professional Bio -->
+
+            <div class="profile-editor-field full-width">
+
+                <label for="bio">
+                    Professional Bio
+                </label>
+
+                <textarea
+                    id="bio"
+                    name="bio"
+                    rows="5"
+                    placeholder="Write a short introduction about yourself, your interests and goals..."
+                >{{ student.bio or '' }}</textarea>
+
+            </div>
+
+
+
+            <!-- Skills -->
+
+            <div class="profile-editor-field full-width">
+
+                <label for="skills">
+                    Skills
+                </label>
+
+                <input
+                    type="text"
+                    id="skills"
+                    name="skills"
+                    value="{{ student.skills or '' }}"
+                    placeholder="Python, Flask, MySQL, Machine Learning, UI/UX"
+                >
+
+                <small>
+                    Separate multiple skills using commas.
+                </small>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             PROFESSIONAL LINKS
+        ================================================== -->
+
+        <section class="profile-editor-card">
+
+            <div class="profile-editor-card-heading">
+
+                <div class="profile-editor-section-icon links">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path
+                            d="
+                                M10 13
+                                a5 5 0 0 0 7.54.54
+                                l3-3
+                                a5 5 0 0 0-7.07-7.07
+                                l-1.72 1.71
+                            "
+                        ></path>
+
+                        <path
+                            d="
+                                M14 11
+                                a5 5 0 0 0-7.54-.54
+                                l-3 3
+                                a5 5 0 0 0 7.07 7.07
+                                l1.71-1.71
+                            "
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        ONLINE PRESENCE
+                    </span>
+
+                    <h2>
+                        Professional Links
+                    </h2>
+
+                    <p>
+                        Add your professional networks and portfolio.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="profile-editor-grid">
+
+
+                <!-- GitHub -->
+
+                <div class="profile-editor-field">
+
+                    <label for="github_url">
+                        GitHub
+                    </label>
+
+                    <input
+                        type="url"
+                        id="github_url"
+                        name="github_url"
+                        value="{{ student.github_url or '' }}"
+                        placeholder="https://github.com/username"
+                    >
+
+                </div>
+
+
+
+                <!-- LinkedIn -->
+
+                <div class="profile-editor-field">
+
+                    <label for="linkedin_url">
+                        LinkedIn
+                    </label>
+
+                    <input
+                        type="url"
+                        id="linkedin_url"
+                        name="linkedin_url"
+                        value="{{ student.linkedin_url or '' }}"
+                        placeholder="https://linkedin.com/in/username"
+                    >
+
+                </div>
+
+
+
+                <!-- Facebook -->
+
+                <div class="profile-editor-field">
+
+                    <label for="facebook_url">
+                        Facebook
+                    </label>
+
+                    <input
+                        type="url"
+                        id="facebook_url"
+                        name="facebook_url"
+                        value="{{ student.facebook_url or '' }}"
+                        placeholder="https://facebook.com/username"
+                    >
+
+                </div>
+
+
+
+                <!-- Portfolio -->
+
+                <div class="profile-editor-field">
+
+                    <label for="portfolio_url">
+                        Portfolio / Website
+                    </label>
+
+                    <input
+                        type="url"
+                        id="portfolio_url"
+                        name="portfolio_url"
+                        value="{{ student.portfolio_url or '' }}"
+                        placeholder="https://yourportfolio.com"
+                    >
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             CV / RESUME
+        ================================================== -->
+
+        <section class="profile-editor-card">
+
+            <div class="profile-editor-card-heading">
+
+                <div class="profile-editor-section-icon cv">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M6 3h9l3 3v15H6z"></path>
+
+                        <path d="M14 3v4h4"></path>
+
+                        <path d="M9 12h6"></path>
+
+                        <path d="M9 16h6"></path>
+
+                    </svg>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        RESUME
+                    </span>
+
+                    <h2>
+                        CV / Resume
+                    </h2>
+
+                    <p>
+                        Upload your latest CV or resume.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="profile-editor-field full-width">
+
+
+                <label>
+                    CV / Resume File
+                </label>
+
+
+                <div class="student-cv-upload-box">
+
+
+                    <div class="student-cv-icon">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <path d="M6 3h9l3 3v15H6z"></path>
+
+                            <path d="M14 3v4h4"></path>
+
+                            <path d="M9 12h6"></path>
+
+                            <path d="M9 16h6"></path>
+
+                        </svg>
+
+                    </div>
+
+
+
+                    <div class="student-cv-content">
+
+
+                        <strong>
+
+                            {% if student.cv_url %}
+
+                                Current CV / Resume available
+
+                            {% else %}
+
+                                Upload your CV / Resume
+
+                            {% endif %}
+
+                        </strong>
+
+
+                        <p>
+                            Accepted formats: PDF, DOC and DOCX.
+                        </p>
+
+
+
+                        <div class="student-cv-actions">
+
+
+                            <label
+                                for="cv_file"
+                                class="student-file-select-btn"
+                            >
+                                Choose CV
+                            </label>
+
+
+
+                            {% if student.cv_url %}
+
+
+                                {% if student.cv_url.startswith('http') %}
+
+                                    <a
+                                        href="{{ student.cv_url }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="student-current-file-btn"
+                                    >
+                                        View Current CV
+                                    </a>
+
+                                {% else %}
+
+                                    <a
+                                        href="{{ url_for(
+                                            'static',
+                                            filename=student.cv_url
+                                        ) }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="student-current-file-btn"
+                                    >
+                                        View Current CV
+                                    </a>
+
+                                {% endif %}
+
+
+                            {% endif %}
+
+
+                        </div>
+
+
+
+                        <input
+                            type="file"
+                            id="cv_file"
+                            name="cv_file"
+                            accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                            class="student-hidden-file-input"
+                        >
+
+
+                        <span
+                            class="student-file-name"
+                            id="cvFileName"
+                        >
+                            No new CV selected
+                        </span>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ACTIONS
+        ================================================== -->
+
+        <div class="profile-editor-actions">
+
+            <a
+                href="{{ url_for('profile') }}"
+                class="profile-editor-cancel-btn"
+            >
+                Cancel
+            </a>
+
+
+            <button
+                type="submit"
+                class="profile-editor-save-btn"
+            >
+
+                Save Profile
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+        </div>
+
+
+    </form>
+
+<!-- =====================================================
+     PROJECTS MANAGEMENT
+===================================================== -->
+
+<section class="profile-editor-card profile-project-management">
+
+    <div class="profile-project-management-header">
+
+        <div class="profile-editor-card-heading project-management-heading">
+
+            <div class="profile-editor-section-icon project-management-icon">
+
+                <svg viewBox="0 0 24 24">
+
+                    <rect
+                        x="3"
+                        y="6"
+                        width="18"
+                        height="14"
+                        rx="2"
+                    ></rect>
+
+                    <path d="M8 6V4h8v2"></path>
+
+                </svg>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    PORTFOLIO
+                </span>
+
+                <h2>
+                    Projects
+                </h2>
+
+                <p>
+                    Manage the academic, personal and professional
+                    projects shown on your profile.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('add_student_project') }}"
+            class="profile-project-add-btn"
+        >
+            <span>+</span>
+            Add Project
+        </a>
+
+    </div>
+
+
+
+    {% if projects %}
+
+        <div class="profile-project-management-list">
+
+            {% for project in projects %}
+
+                <article class="profile-project-management-item">
+
+                    <div class="profile-project-management-main">
+
+                        <div class="profile-project-management-title-row">
+
+                            <div>
+
+                                <h3>
+                                    {{ project.project_title }}
+                                </h3>
+
+                                {% if project.technologies %}
+
+                                    <p class="profile-project-tech">
+                                        {{ project.technologies }}
+                                    </p>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            {% if project.is_ongoing %}
+
+                                <span class="profile-project-ongoing">
+                                    Ongoing
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        {% if project.project_description %}
+
+                            <p class="profile-project-description">
+                                {{ project.project_description }}
+                            </p>
+
+                        {% endif %}
+
+
+                        <div class="profile-project-management-meta">
+
+                            {% if project.start_date %}
+
+                                <span>
+
+                                    {{ project.start_date.strftime('%b %Y') }}
+
+                                    {% if project.is_ongoing %}
+
+                                        — Present
+
+                                    {% elif project.end_date %}
+
+                                        —
+                                        {{ project.end_date.strftime('%b %Y') }}
+
+                                    {% endif %}
+
+                                </span>
+
+                            {% endif %}
+
+
+                            {% if project.github_url %}
+
+                                <a
+                                    href="{{ project.github_url }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    GitHub ↗
+                                </a>
+
+                            {% endif %}
+
+
+                            {% if project.project_url %}
+
+                                <a
+                                    href="{{ project.project_url }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Live Project ↗
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-project-management-actions">
+
+    <a
+        href="{{ url_for(
+            'edit_student_project',
+            project_id=project.project_id
+        ) }}"
+        class="profile-project-edit-btn"
+    >
+        Edit
+    </a>
+
+
+    <form
+        method="POST"
+        action="{{ url_for(
+            'delete_student_project',
+            project_id=project.project_id
+        ) }}"
+        class="profile-project-delete-form"
+
+        onsubmit="return confirm(
+            'Are you sure you want to delete this project? This action cannot be undone.'
+        );"
+    >
+
+        <button
+            type="submit"
+            class="profile-project-delete-btn"
+        >
+            Delete
+        </button>
+
+    </form>
+
+</div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <div class="profile-project-management-empty">
+
+            <div class="profile-project-empty-icon">
+
+                <svg viewBox="0 0 24 24">
+
+                    <rect
+                        x="3"
+                        y="6"
+                        width="18"
+                        height="14"
+                        rx="2"
+                    ></rect>
+
+                    <path d="M8 6V4h8v2"></path>
+
+                </svg>
+
+            </div>
+
+
+            <h3>
+                No projects added yet
+            </h3>
+
+            <p>
+                Add your first project to showcase your
+                skills and practical experience.
+            </p>
+
+            <a href="{{ url_for('add_student_project') }}">
+                + Add Your First Project
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+</main>
+
+
+
+<!-- =====================================================
+    FILE UPLOAD PREVIEW
+===================================================== -->
+
+<script>
+
+    // =====================================================
+    // PROFILE PHOTO PREVIEW
+    // =====================================================
+
+    const profilePhotoInput =
+        document.getElementById(
+            "profile_photo_file"
+        );
+
+    const profilePhotoPreview =
+        document.getElementById(
+            "profilePhotoPreview"
+        );
+
+    const profilePhotoPlaceholder =
+        document.getElementById(
+            "profilePhotoPlaceholder"
+        );
+
+    const profilePhotoFileName =
+        document.getElementById(
+            "profilePhotoFileName"
+        );
+
+
+    if (profilePhotoInput) {
+
+        profilePhotoInput.addEventListener(
+            "change",
+            function () {
+
+                const file = this.files[0];
+
+
+                if (!file) {
+
+                    profilePhotoFileName.textContent =
+                        "No new photo selected";
+
+                    return;
+
+                }
+
+
+                // -----------------------------------------
+                // Show selected filename
+                // -----------------------------------------
+
+                profilePhotoFileName.textContent =
+                    file.name;
+
+
+                // -----------------------------------------
+                // Preview image before upload
+                // -----------------------------------------
+
+                const reader =
+                    new FileReader();
+
+
+                reader.onload =
+                    function (event) {
+
+                        profilePhotoPreview.src =
+                            event.target.result;
+
+                        profilePhotoPreview.style.display =
+                            "block";
+
+
+                        if (
+                            profilePhotoPlaceholder
+                        ) {
+
+                            profilePhotoPlaceholder
+                                .style
+                                .display =
+                                "none";
+
+                        }
+
+                    };
+
+
+                reader.readAsDataURL(
+                    file
+                );
+
+            }
+        );
+
+    }
+
+
+
+    // =====================================================
+    // CV FILE NAME PREVIEW
+    // =====================================================
+
+    const cvInput =
+        document.getElementById(
+            "cv_file"
+        );
+
+    const cvFileName =
+        document.getElementById(
+            "cvFileName"
+        );
+
+
+    if (cvInput) {
+
+        cvInput.addEventListener(
+            "change",
+            function () {
+
+                const file =
+                    this.files[0];
+
+
+                if (!file) {
+
+                    cvFileName.textContent =
+                        "No new CV selected";
+
+                    return;
+
+                }
+
+
+                cvFileName.textContent =
+                    file.name;
+
+            }
+        );
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

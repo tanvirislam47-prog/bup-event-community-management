@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Student Dashboard | BUP Event & Community
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body class="student-dashboard-body">
+
+
+<!-- =====================================================
+     TOP NAVIGATION
+===================================================== -->
+
+<header class="student-topbar">
+
+    <div class="student-topbar-inner">
+
+        <a
+            href="{{ url_for('student_dashboard') }}"
+            class="student-brand"
+        >
+            BUP Event & Community
+        </a>
+
+
+        <div class="student-topbar-actions">
+
+            <span class="student-topbar-name">
+                {{ student.full_name }}
+            </span>
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="student-logout-link"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<main class="student-dashboard">
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section class="student-dashboard-hero">
+
+        <div class="student-hero-content">
+
+            <span class="student-eyebrow">
+                STUDENT PORTAL
+            </span>
+
+            <h1>
+                Welcome back, {{ student.full_name }}
+            </h1>
+
+            <p>
+                Explore university clubs, manage your memberships,
+                review applications and stay connected with upcoming
+                events.
+            </p>
+
+
+            <div class="student-identity-row">
+
+                <span>
+                    ID: {{ student.student_id }}
+                </span>
+
+                <span>
+                    {{ student.department }}
+                </span>
+
+                <span>
+                    Batch {{ student.batch }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="student-hero-profile">
+
+            <div class="student-avatar">
+                {{ student.full_name[0] | upper }}
+            </div>
+
+
+            <div>
+
+                <small>
+                    SIGNED IN AS
+                </small>
+
+                <strong>
+                    {{ student.full_name }}
+                </strong>
+
+                <span>
+                    Student
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         STATISTICS
+    ================================================== -->
+
+    <section class="student-stat-grid">
+
+
+        <!-- ACTIVE MEMBERSHIPS -->
+
+        <div class="student-stat-card">
+
+            <div class="student-stat-icon">
+                C
+            </div>
+
+            <div>
+
+                <strong>
+                    {{ dashboard_stats.active_memberships }}
+                </strong>
+
+                <span>
+                    Active Memberships
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PENDING APPLICATIONS -->
+
+        <div class="student-stat-card">
+
+            <div class="student-stat-icon">
+                A
+            </div>
+
+            <div>
+
+                <strong>
+                    {{ dashboard_stats.pending_applications }}
+                </strong>
+
+                <span>
+                    Pending Applications
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- UPCOMING EVENTS -->
+
+        <div class="student-stat-card">
+
+            <div class="student-stat-icon">
+                E
+            </div>
+
+            <div>
+
+                <strong>
+                    {{ dashboard_stats.upcoming_events }}
+                </strong>
+
+                <span>
+                    Upcoming Events
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- AVAILABLE CLUBS -->
+
+        <div class="student-stat-card">
+
+            <div class="student-stat-icon">
+                N
+            </div>
+
+            <div>
+
+                <strong>
+                    {{ dashboard_stats.available_clubs }}
+                </strong>
+
+                <span>
+                    Available Clubs
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         PROFESSIONAL QUICK ACCESS
+    ================================================== -->
+
+    <section class="student-dashboard-section">
+
+
+        <div class="student-section-heading student-quick-heading">
+
+            <div>
+
+                <span>
+                    QUICK ACCESS
+                </span>
+
+                <h2>
+                    What would you like to do?
+                </h2>
+
+                <p class="student-quick-subtitle">
+                    Access your clubs, applications, memberships
+                    and student profile from one place.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="student-action-grid professional-actions-grid">
+
+
+            <!-- =================================================
+                 BROWSE CLUBS
+            ================================================== -->
+
+            <a
+                href="{{ url_for('clubs') }}"
+                class="student-action-card professional-action-card"
+            >
+
+                <div class="professional-action-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M4 6h16"></path>
+                        <path d="M4 12h16"></path>
+                        <path d="M4 18h10"></path>
+
+                        <circle
+                            cx="18"
+                            cy="18"
+                            r="3"
+                        ></circle>
+
+                    </svg>
+
+                </div>
+
+
+                <div class="professional-action-content">
+
+                    <div class="professional-action-top">
+
+                        <span class="professional-action-label">
+                            DISCOVER
+                        </span>
+
+                        <span class="professional-action-count">
+
+                            {{ dashboard_stats.available_clubs or 0 }}
+                            Clubs
+
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        Browse Clubs
+                    </h3>
+
+                    <p>
+                        Explore active university clubs and
+                        discover communities that match your interests.
+                    </p>
+
+                </div>
+
+
+                <span class="professional-action-arrow">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M5 12h14"></path>
+                        <path d="M13 6l6 6-6 6"></path>
+
+                    </svg>
+
+                </span>
+
+            </a>
+
+
+
+            <!-- =================================================
+                 MY APPLICATIONS
+            ================================================== -->
+
+            <a
+                href="{{ url_for('my_applications') }}"
+                class="
+                    student-action-card
+                    professional-action-card
+                    application-action-card
+                "
+            >
+
+                <div class="professional-action-icon application-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M6 3h9l3 3v15H6z"></path>
+                        <path d="M14 3v4h4"></path>
+                        <path d="M9 12h6"></path>
+                        <path d="M9 16h4"></path>
+
+                    </svg>
+
+                </div>
+
+
+                <div class="professional-action-content">
+
+                    <div class="professional-action-top">
+
+                        <span class="professional-action-label">
+                            APPLICATIONS
+                        </span>
+
+
+                        {% if dashboard_stats.pending_applications > 0 %}
+
+                            <span
+                                class="
+                                    professional-action-count
+                                    pending
+                                "
+                            >
+
+                                {{ dashboard_stats.pending_applications }}
+                                Pending
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="professional-action-count">
+                                No Pending
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <h3>
+                        My Applications
+                    </h3>
+
+                    <p>
+                        Track submitted membership applications,
+                        review their status and manage pending requests.
+                    </p>
+
+                </div>
+
+
+                <span class="professional-action-arrow">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M5 12h14"></path>
+                        <path d="M13 6l6 6-6 6"></path>
+
+                    </svg>
+
+                </span>
+
+            </a>
+
+
+
+            <!-- =================================================
+                 MY MEMBERSHIPS
+            ================================================== -->
+
+            <a
+                href="{{ url_for('my_memberships') }}"
+                class="student-action-card professional-action-card"
+            >
+
+                <div class="professional-action-icon membership-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path
+                            d="
+                                M16 21v-2
+                                a4 4 0 0 0-4-4
+                                H6
+                                a4 4 0 0 0-4 4
+                                v2
+                            "
+                        ></path>
+
+                        <circle
+                            cx="9"
+                            cy="7"
+                            r="4"
+                        ></circle>
+
+                        <path d="M19 8v6"></path>
+                        <path d="M22 11h-6"></path>
+
+                    </svg>
+
+                </div>
+
+
+                <div class="professional-action-content">
+
+                    <div class="professional-action-top">
+
+                        <span class="professional-action-label">
+                            COMMUNITY
+                        </span>
+
+                        <span
+                            class="
+                                professional-action-count
+                                active
+                            "
+                        >
+
+                            {{ dashboard_stats.active_memberships or 0 }}
+                            Active
+
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        My Memberships
+                    </h3>
+
+                    <p>
+                        View your active club memberships
+                        and access the communities you belong to.
+                    </p>
+
+                </div>
+
+
+                <span class="professional-action-arrow">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M5 12h14"></path>
+                        <path d="M13 6l6 6-6 6"></path>
+
+                    </svg>
+
+                </span>
+
+            </a>
+
+
+
+            <!-- =================================================
+                 MY PROFILE
+            ================================================== -->
+
+            <a
+                href="{{ url_for('profile') }}"
+                class="student-action-card professional-action-card"
+            >
+
+                <div class="professional-action-icon profile-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <circle
+                            cx="12"
+                            cy="8"
+                            r="4"
+                        ></circle>
+
+                        <path
+                            d="
+                                M4 21
+                                a8 8 0 0 1
+                                16 0
+                            "
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+
+                <div class="professional-action-content">
+
+                    <div class="professional-action-top">
+
+                        <span class="professional-action-label">
+                            PROFILE
+                        </span>
+
+                        <span class="professional-action-count">
+                            View
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        My Profile
+                    </h3>
+
+                    <p>
+                        View your academic, personal and
+                        professional student information.
+                    </p>
+
+                </div>
+
+
+                <span class="professional-action-arrow">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M5 12h14"></path>
+                        <path d="M13 6l6 6-6 6"></path>
+
+                    </svg>
+
+                </span>
+
+            </a>
+
+
+
+            <!-- =================================================
+                 EDIT PROFILE
+            ================================================== -->
+
+            <a
+                href="{{ url_for('edit_profile') }}"
+                class="
+                    student-action-card
+                    professional-action-card
+                    edit-profile-action-card
+                "
+            >
+
+                <div class="professional-action-icon edit-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M12 20h9"></path>
+
+                        <path
+                            d="
+                                M16.5 3.5
+                                a2.1 2.1 0 0 1 3 3
+                                L8 18
+                                l-4 1
+                                1-4z
+                            "
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+
+                <div class="professional-action-content">
+
+                    <div class="professional-action-top">
+
+                        <span class="professional-action-label">
+                            ACCOUNT
+                        </span>
+
+                        <span class="professional-action-count">
+                            Update
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        Edit Profile
+                    </h3>
+
+                    <p>
+                        Keep your academic, contact and
+                        professional information up to date.
+                    </p>
+
+                </div>
+
+
+                <span class="professional-action-arrow">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M5 12h14"></path>
+                        <path d="M13 6l6 6-6 6"></path>
+
+                    </svg>
+
+                </span>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         MY CLUB MEMBERSHIPS
+    ================================================== -->
+
+    <section class="student-dashboard-section">
+
+        <div class="student-section-heading">
+
+            <div>
+
+                <span>
+                    YOUR COMMUNITY
+                </span>
+
+                <h2>
+                    My Club Memberships
+                </h2>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('my_memberships') }}"
+                class="student-section-link"
+            >
+                View All
+            </a>
+
+        </div>
+
+
+
+        {% if memberships %}
+
+
+            <div class="student-membership-grid">
+
+
+                {% for membership in memberships %}
+
+
+                    <article class="student-membership-card">
+
+
+                        <div class="student-membership-top">
+
+                            <div class="student-club-letter">
+
+                                {{ membership.club_name[0] | upper }}
+
+                            </div>
+
+
+                            <span
+                                class="
+                                    student-status-badge
+                                    student-status-{{ membership.status | lower }}
+                                "
+                            >
+
+                                {{ membership.status }}
+
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            {{ membership.club_name }}
+                        </h3>
+
+
+                        <p>
+                            {{ membership.category }}
+                        </p>
+
+
+                        <a
+                            href="{{ url_for(
+                                'club_details',
+                                club_id=membership.club_id
+                            ) }}"
+                        >
+                            View Club →
+                        </a>
+
+
+                    </article>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <div class="student-empty-card">
+
+                <h3>
+                    No club memberships yet
+                </h3>
+
+                <p>
+                    Explore available clubs and find a community
+                    that matches your interests.
+                </p>
+
+                <a
+                    href="{{ url_for('clubs') }}"
+                    class="student-primary-btn"
+                >
+                    Browse Clubs
+                </a>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         EVENTS + NOTICES
+    ================================================== -->
+
+    <div class="student-dashboard-columns">
+
+
+        <!-- =================================================
+             UPCOMING EVENTS
+        ================================================== -->
+
+        <section class="student-dashboard-section">
+
+            <div class="student-section-heading">
+
+                <div>
+
+                    <span>
+                        COMING UP
+                    </span>
+
+                    <h2>
+                        Upcoming Events
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            {% if upcoming_events %}
+
+
+                <div class="student-list-card">
+
+
+                    {% for event in upcoming_events %}
+
+
+                        <div class="student-list-item">
+
+
+                            <div class="student-list-date">
+
+                                <strong>
+                                    {{ event.event_date.strftime('%d') }}
+                                </strong>
+
+                                <span>
+                                    {{ event.event_date.strftime('%b') }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="student-list-content">
+
+                                <h3>
+                                    {{ event.title }}
+                                </h3>
+
+                                <p>
+                                    {{ event.club_name }}
+                                </p>
+
+                                <small>
+
+                                    {% if event.location %}
+
+                                        {{ event.location }}
+
+                                    {% else %}
+
+                                        Location TBA
+
+                                    {% endif %}
+
+                                </small>
+
+                            </div>
+
+
+                        </div>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+            {% else %}
+
+
+                <div class="student-empty-card compact">
+
+                    <h3>
+                        No upcoming events
+                    </h3>
+
+                    <p>
+                        New club events will appear here.
+                    </p>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             RECENT NOTICES
+        ================================================== -->
+
+        <section class="student-dashboard-section">
+
+            <div class="student-section-heading">
+
+                <div>
+
+                    <span>
+                        LATEST UPDATES
+                    </span>
+
+                    <h2>
+                        Recent Notices
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            {% if recent_notices %}
+
+
+                <div class="student-list-card">
+
+
+                    {% for notice in recent_notices %}
+
+
+                        <div class="student-notice-item">
+
+                            <div class="student-notice-dot"></div>
+
+
+                            <div>
+
+                                <h3>
+                                    {{ notice.title }}
+                                </h3>
+
+                                <p>
+                                    {{ notice.club_name }}
+                                </p>
+
+
+                                <small>
+
+                                    {% if notice.created_at %}
+
+                                        {{ notice.created_at.strftime(
+                                            '%d %b %Y'
+                                        ) }}
+
+                                    {% endif %}
+
+                                </small>
+
+                            </div>
+
+
+                        </div>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+            {% else %}
+
+
+                <div class="student-empty-card compact">
+
+                    <h3>
+                        No recent notices
+                    </h3>
+
+                    <p>
+                        Published club notices will appear here.
+                    </p>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>
